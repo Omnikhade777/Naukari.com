@@ -1,0 +1,32 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Signup from "./Components/authentication/AdminSignup"
+import Signin from "./Components/authentication/AdminSignin"
+import CSignin from "./Components/authentication/CandidateSignin"
+import CSignup from "./Components/authentication/Candidatesignup"
+import CandidateResetpass from "./Components/authentication/CandidateResetpass"
+import AdminForgetpass from "./Components/authentication/AdminForgetass"
+import AdminResetpass from "./Components/authentication/AdminResetpass"
+import CandidateForgetpass from "./Components/authentication/CandidateForgetpass"
+
+function App() {
+
+  return (
+    <>
+<BrowserRouter>
+<Routes>
+<Route path="/signup" element={<Signup/>}/>
+<Route path="/signin" element={<Signin/>}/>
+<Route path="/user-signin" element={<CSignin/>}/>
+<Route path="/user-signup" element={<CSignup/>}/>
+<Route path="/adminfoget" element={<AdminForgetpass/>} />
+<Route path="/userreset-password" element={<CandidateResetpass/>}/>
+<Route path="/reset-password" element={<AdminResetpass />} />
+<Route path="/candidateforget" element={<CandidateForgetpass/>}/>
+
+</Routes>
+</BrowserRouter>
+    </>
+  )
+}
+
+export default App
