@@ -83,6 +83,7 @@ route.post("/addinfotoprofile",authcandidatemiddleware,async(req,res)=>{
                 education:JSON.stringify(profilebodydata.education)
             }
           });
+          
           if(createprofile){
             return res.status(200).json({
                 message:"profile is created successfully !",
@@ -182,7 +183,7 @@ route.get("/myallapplicatons",authcandidatemiddleware,async(req,res)=>{
                      job: true
                     }
              });
-
+             
         if(!alljobs){
             return res.status(204).json({
                 message:"No more posts"

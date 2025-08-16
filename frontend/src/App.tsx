@@ -7,6 +7,9 @@ import CandidateResetpass from "./Components/authentication/CandidateResetpass"
 import AdminForgetpass from "./Components/authentication/AdminForgetass"
 import AdminResetpass from "./Components/authentication/AdminResetpass"
 import CandidateForgetpass from "./Components/authentication/CandidateForgetpass"
+import Mainpage from "./Components/Candidatepages/Mainpage"
+import UpdateProfile from "./Components/Candidatepages/Updateprofiel"
+import Myapplications from "./Components/Candidatepages/Myapplications"
 
 function App() {
 
@@ -22,6 +25,9 @@ function App() {
 <Route path="/userreset-password" element={<CandidateResetpass/>}/>
 <Route path="/reset-password" element={<AdminResetpass />} />
 <Route path="/candidateforget" element={<CandidateForgetpass/>}/>
+<Route path="/mainpage" element={<Mainpage/>}/>
+<Route path="/update/profile" element={<UpdateProfile/>}/>
+<Route path="/allapplications" element={<Myapplications/>}/>
 
 </Routes>
 </BrowserRouter>
