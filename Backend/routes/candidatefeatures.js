@@ -27,7 +27,7 @@ route.post("/savejobs",authcandidatemiddleware,async(req,res)=>{
     });
     if(isexist){
         return res.status(409).json({
-         message:"job is already saved"
+         message:"job is already saved !"
         })
     }
     const savejob= await prisma.savedjobs.create({
@@ -39,7 +39,8 @@ route.post("/savejobs",authcandidatemiddleware,async(req,res)=>{
    if(savejob){
        return res.status(200).json({
          message:"job is saved",
-         withid:savejob.id
+         withid:savejob.id,
+         jobid:body.jobid
         });
    }}catch(err){
          return res.status(500).json({
@@ -54,6 +55,9 @@ route.get("/getallsavedjobs",authcandidatemiddleware,async(req,res)=>{
     try{ const getsavedjobs=await prisma.savedjobs.findMany({
            where:{
             candidateId:req.id
+           },
+           include:{
+            job:true
            }
      });
 
@@ -74,21 +78,12 @@ route.get("/getallsavedjobs",authcandidatemiddleware,async(req,res)=>{
 
 
 
-const jobiddeleteschema=zod.object({
-    jobid:zod.string(),
-})
-route.delete("/deltesavejobs",authcandidatemiddleware,async(req,res)=>{
-    const result=jobiddeleteschema.safeParse(req.body);
-    if(!result.success){
-        return res.status(400).json({
-            message:"invalid id"
-        })
-    }
-    const body=result.data;
+route.delete("/deletesavejobs/:id",authcandidatemiddleware,async(req,res)=>{
+    const id=req.params.id;
     try{  
         const isexist=await prisma.savedjobs.findFirst({
         where:{
-            jobId:body.jobid,
+            jobId:id,
             candidateId:req.id 
         }
     });
@@ -118,7 +113,6 @@ route.delete("/deltesavejobs",authcandidatemiddleware,async(req,res)=>{
 
 route.get("/recomendedjobs",authcandidatemiddleware,async(req,res)=>{
     const candidateid=req.id;
-    console.log(candidateid);
     try{
      const findcandidate=await prisma.candidateProfile.findUnique({
         where:{

@@ -1,7 +1,10 @@
+import axios, { AxiosError } from "axios";
 import Usefetchpost from "../../hooks/Usefetchpost";
 import Header from "./Header";
 import Profile from "./Profile";
-
+import { useEffect, useState } from "react";
+import Footerbar from "./Footerbar";
+import { BookmarkCheck } from "lucide-react";
 const Mainpage=()=>{
 
     interface jobinfo{
@@ -17,14 +20,83 @@ const Mainpage=()=>{
         isActive:Boolean
     }
 
+    interface response{
+      message:string,
+      jobid:string
+    }
+    const [jobMessages, setJobMessages] = useState<Record<string, string>>({});
+    const [jobid,setjobid]=useState("");
     const {jobs} = Usefetchpost<jobinfo>();
+    const [savedJobs, setSavedJobs] = useState<Record<string, boolean>>({});
+    const [savemessage,setsavemessage]=useState<Record<string,string>>({});
+
+    const handleisapply=async(jobiid:string)=>{
+      try{
+       const response= await axios.post<response>(
+      `http://localhost:3000/api/v1/candidatehandler/job/apply/${jobiid}`,
+      {}, 
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+
+    const {message,jobid}=response.data;
+       setJobMessages((prev) => ({
+        ...prev,
+      [jobiid]: message,
+    }));
+    setjobid(jobid);
+  }catch(err){
+   const error=err as AxiosError<{message:string}>
+   setJobMessages((prev) => ({
+      ...prev,
+      [jobiid]: error.response?.data?.message || "something went wrong",
+    }));
+  }};
+
+const handelsave=async(jobsaveid:string)=>{
+  try{
+   const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+    jobid:jobsaveid
+   },{
+    headers:{
+      Authorization:localStorage.getItem("token"),
+    }
+   });
+   const {message}=response.data;
+  
+   setsavemessage((prev)=>({
+    ...prev,
+    [jobsaveid]:message
+   }))
+  }catch(err){
+   const error=err as AxiosError<{message:string}>
+   setsavemessage((prev)=>({
+    ...prev,
+    [jobsaveid]:error.response?.data?.message || "something went wrong"
+   }))
+  }
+
+}
+
+useEffect(()=>{
+   const timer=setTimeout(() => {
+    setJobMessages({});
+    setsavemessage({});
+   }, 2000);
+   return ()=>clearTimeout(timer)
+},[jobMessages,savemessage]);
 
 return (
   <>
+  
   <div className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
     <Header />
   </div>
-  <div className="flex gap-6 mt-24 max-w-7xl mx-auto px-4">
+  <div>
+  <div className="flex gap-6 mt-24 max-w-7xl py-16 mx-auto px-4">
   <div className="flex-1">
     <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
       💼 Job Listings
@@ -77,18 +149,57 @@ return (
             </span>
           </p>
         </div>
-        <div className="mt-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm transition-colors duration-200">
-            Apply Now
+        <div className="mt-4 flex">
+          <div>
+          <button
+          onClick={()=>{
+            handleisapply(job.id);
+          }}
+           className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 mt-2 rounded-lg shadow-sm transition-colors duration-200">
+           {jobid===job.id ? "Applied" : "Apply Now"}
           </button>
+          </div>
+          <div>
+          <button
+  onClick={() => {
+    handelsave(job.id);
+    setSavedJobs((prev) => ({
+      ...prev,
+      [job.id]: !prev[job.id], 
+    }));
+  }}
+  className="flex items-center gap-2 ml-60 bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-2 rounded-lg border border-blue-300 shadow-sm transition"
+>
+  {savedJobs[job.id] && savemessage[job.id]==="job is saved" ? (
+    <>
+      <BookmarkCheck className="w-5 h-5 text-green-600" />
+      Saved
+    </>
+    
+  ) : (
+    <>
+      <BookmarkCheck className="w-5 h-5 text-blue-600" />
+      Save
+    </>
+  )}
+     </button>
+     <div className="ml-56 mt-4 text-red-500">{savemessage[job.id]}</div>
+    </div>
+
         </div>
+        <div className="mt-6 text-red-500">{jobMessages[job.id]} </div>
       </div>
     ))}
+
   </div>
     <div className="sticky top-24 h-fit w-[400px] bg-white rounded-lg ml-20 p-4">
       <Profile />
     </div>
   </div>
+  </div>
+ <div className="bg-white shadow-md fixed bottom-0 left-0 w-full z-50 h-16">
+  <Footerbar/>
+</div>
 </>
 
 );

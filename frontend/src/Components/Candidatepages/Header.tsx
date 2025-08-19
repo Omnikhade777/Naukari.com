@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+
 
 const Header=()=>{
-  const navigate=useNavigate();
+
     return(
         <>
           <header className="bg-white shadow-md">
@@ -11,15 +11,6 @@ const Header=()=>{
           <span className="text-xl font-bold text-blue-600">Naukarr.com</span>
         </div>
         <div className="flex items-center gap-14">
-        <button
-        onClick={() => {
-         navigate("/allapplications")
-        }}
-          className="bg-blue-500 hover:bg-blue-400 text-white px-2 py-1 rounded-md transition"
-        >
-          MyApplication's
-
-        </button>
         <button
           onClick={() => console.log("Logout clicked")}
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"

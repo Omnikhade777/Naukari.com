@@ -13,8 +13,7 @@ const AddProfile = () => {
   });
 
   const [skillsInput, setSkillsInput] = useState("");
-
-
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

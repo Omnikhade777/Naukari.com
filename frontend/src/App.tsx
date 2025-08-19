@@ -10,6 +10,8 @@ import CandidateForgetpass from "./Components/authentication/CandidateForgetpass
 import Mainpage from "./Components/Candidatepages/Mainpage"
 import UpdateProfile from "./Components/Candidatepages/Updateprofiel"
 import Myapplications from "./Components/Candidatepages/Myapplications"
+import Savedjobs from "./Components/Candidatepages/Savedjobs"
+import Recommended from "./Components/Candidatepages/Recommended"
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
 <Route path="/mainpage" element={<Mainpage/>}/>
 <Route path="/update/profile" element={<UpdateProfile/>}/>
 <Route path="/allapplications" element={<Myapplications/>}/>
+<Route path="/savedjobs" element={<Savedjobs/>}/>
+<Route path="/recommendjobs" element={<Recommended/>}/>
 
 </Routes>
 </BrowserRouter>

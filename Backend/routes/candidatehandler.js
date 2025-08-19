@@ -41,7 +41,8 @@ route.post("/job/apply/:id",authcandidatemiddleware,async(req,res)=>{
     if(apply){
         return res.status(200).json({
             message:"successfully applied for the job",
-            withid:apply.id
+            withid:apply.id,
+            jobid:jobid
         })
     }
   }catch(err){
