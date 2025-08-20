@@ -12,6 +12,7 @@ import UpdateProfile from "./Components/Candidatepages/Updateprofiel"
 import Myapplications from "./Components/Candidatepages/Myapplications"
 import Savedjobs from "./Components/Candidatepages/Savedjobs"
 import Recommended from "./Components/Candidatepages/Recommended"
+import Similarjobs from "./Components/Candidatepages/Similarjobs"
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
 <Route path="/allapplications" element={<Myapplications/>}/>
 <Route path="/savedjobs" element={<Savedjobs/>}/>
 <Route path="/recommendjobs" element={<Recommended/>}/>
+<Route path="/similarjobs" element={<Similarjobs/>}/>
 
 </Routes>
 </BrowserRouter>

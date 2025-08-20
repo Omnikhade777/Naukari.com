@@ -5,6 +5,7 @@ import Profile from "./Profile";
 import { useEffect, useState } from "react";
 import Footerbar from "./Footerbar";
 import { BookmarkCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 const Mainpage=()=>{
 
     interface jobinfo{
@@ -29,6 +30,7 @@ const Mainpage=()=>{
     const {jobs} = Usefetchpost<jobinfo>();
     const [savedJobs, setSavedJobs] = useState<Record<string, boolean>>({});
     const [savemessage,setsavemessage]=useState<Record<string,string>>({});
+    const navigate=useNavigate();
 
     const handleisapply=async(jobiid:string)=>{
       try{
@@ -159,6 +161,7 @@ return (
            {jobid===job.id ? "Applied" : "Apply Now"}
           </button>
           </div>
+          
           <div>
           <button
   onClick={() => {
@@ -188,7 +191,18 @@ return (
 
         </div>
         <div className="mt-6 text-red-500">{jobMessages[job.id]} </div>
+     <div className="border-t border-gray-200 mt-8 pt-4">
+  <h2
+  onClick={()=>{
+   navigate("/similarjobs",{state:{id:job.id}});
+  }} 
+  className="text-base font-semibold text-gray-800 cursor-pointer">
+    Similar jobs
+  </h2>
+</div>
+
       </div>
+       
     ))}
 
   </div>

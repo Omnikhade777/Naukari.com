@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
    interface recomendjobs<T>{
         message:string,
         recomendjobs:T[],
-        
-
     }
 const UseRecommend=<T,>()=>{
 const [recommendjobs,setrecommendjobs]=useState<T[]>([]);
