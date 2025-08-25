@@ -35,14 +35,7 @@ const Footerbar=()=>{
         >
         Recommend
         </span>
-          <span
-        onClick={() => {
-         navigate("/similarjobs")
-        }}
-          className=" text-gray-700 rounded-md transition cursor-pointer"
-        >
-        Similarjobs
-        </span>
+         
         <button
           onClick={() => console.log("Logout clicked")}
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"

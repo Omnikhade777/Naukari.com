@@ -149,17 +149,14 @@ return (
             <div>
               <button
                 onClick={() => handleisapply(j.id)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition duration-200"
-              >
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition duration-200">
                 Apply Now
               </button>
                <div className={ JobMessages[j.id]==="successfully applied for the job" ?
-                "mt-3 text-green-500 font-medium"
-              :  "mt-3 text-red-500 font-medium"}>
+                "mt-3 text-green-500 font-medium": "mt-3 text-red-500 font-medium"}>
                 {JobMessages[j.id]}
               </div>
             </div>
-
             <div>
               <button
                 onClick={() => {

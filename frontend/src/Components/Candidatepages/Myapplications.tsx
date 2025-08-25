@@ -16,6 +16,7 @@ interface jobs{
     jobtype:string
 }
 const [applications,setapplications]=useState<jobs[]>([]);
+
   
 
 useEffect(()=>{
@@ -42,6 +43,13 @@ myapplications();
     setapplications(applications.filter((job)=>job.id !==jobid));
 }
 
+ if (applications.length === 0) {
+    return (
+      <h1 className="text-3xl font-bold mb-8 mt-9 text-center text-gray-800">
+        💼 No Applied jobs
+      </h1>
+    );
+  }
     return (
         <>
 <div className="flex justify-center mt-10 px-4">
@@ -115,5 +123,6 @@ myapplications();
 
         </>
     )
+  
 }
 export default Myapplications;

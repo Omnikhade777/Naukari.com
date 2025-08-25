@@ -35,6 +35,7 @@ function App() {
 <Route path="/recommendjobs" element={<Recommended/>}/>
 <Route path="/similarjobs" element={<Similarjobs/>}/>
 
+
 </Routes>
 </BrowserRouter>
     </>

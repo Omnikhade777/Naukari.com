@@ -220,19 +220,19 @@ route.get("/filterjobs",authcandidatemiddleware,async(req,res)=>{
               });
             }
 
-            const jobs = await prisma.job.findMany({
+            const searchjobs = await prisma.job.findMany({
               where: {
                 OR: orConditions
               }
             });
 
-          if(jobs.length===0){
+          if(searchjobs.length===0){
             return res.status(400).json({
                 message:"no matching result"
             })
           }
           return res.status(200).json({
-          jobs
+          searchjobs
           })
           }catch(err){
             return res.status(500).json({

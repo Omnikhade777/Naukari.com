@@ -4,7 +4,7 @@ import Header from "./Header";
 import Profile from "./Profile";
 import { useEffect, useState } from "react";
 import Footerbar from "./Footerbar";
-import { BookmarkCheck } from "lucide-react";
+import { BookmarkCheck, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 const Mainpage=()=>{
 
@@ -27,11 +27,17 @@ const Mainpage=()=>{
     }
     const [jobMessages, setJobMessages] = useState<Record<string, string>>({});
     const [jobid,setjobid]=useState("");
-    const {jobs} = Usefetchpost<jobinfo>();
+     const { jobs: allJobs } = Usefetchpost<jobinfo>();
+      const [jobs, setJobs] = useState<jobinfo[]>([]);
+
     const [savedJobs, setSavedJobs] = useState<Record<string, boolean>>({});
     const [savemessage,setsavemessage]=useState<Record<string,string>>({});
+    const [searchitem,setsearchitem]=useState<string>("");
     const navigate=useNavigate();
 
+    useEffect(() => {
+    setJobs(allJobs);
+     }, [allJobs]);
     const handleisapply=async(jobiid:string)=>{
       try{
        const response= await axios.post<response>(
@@ -91,14 +97,48 @@ useEffect(()=>{
    return ()=>clearTimeout(timer)
 },[jobMessages,savemessage]);
 
+useEffect(()=>{
+   if (!searchitem) {
+    setJobs(allJobs); 
+    return;
+  }
+    const timer=setTimeout(async() => {
+      try{
+      const response=await axios.get("http://localhost:3000/api/v1/candidatefeatures/filterjobs",{
+      params: { title:searchitem , location:searchitem },
+      headers: { 
+        Authorization: localStorage.getItem("token") 
+      },
+    }
+  );
+  const {searchjobs}=response.data;
+  setJobs(searchjobs)
+}catch(err){
+
+}
+    },1500);
+
+return ()=> clearTimeout(timer);
+
+},[searchitem]);
+
 return (
   <>
-  
   <div className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
     <Header />
   </div>
+   <div className="flex-1 mt-28  px-8 fixed top-0 left-0 w-full z-50">
+          <div className="relative w-full max-w-md mx-auto">
+            <input
+            onChange={(e)=>{setsearchitem(e.target.value)}}
+              type="text"
+              placeholder="Search jobs, skills, or companies..."
+              className="w-full pl-12 pr-4 py-2.5 rounded-full border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition"/>
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+          </div>
+        </div>
   <div>
-  <div className="flex gap-6 mt-24 max-w-7xl py-16 mx-auto px-4">
+  <div className="flex gap-6 mt-36 max-w-7xl py-16 mx-auto px-4">
   <div className="flex-1">
     <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
       💼 Job Listings
