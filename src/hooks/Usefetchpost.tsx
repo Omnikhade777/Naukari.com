@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
      },[])
 
 
-     return {jobs};
+     return {jobs,setjobs};
 
     }
 export default Usefetchpost;

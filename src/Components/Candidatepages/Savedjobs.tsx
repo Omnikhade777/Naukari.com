@@ -1,5 +1,7 @@
 import axios from "axios";
+import { Bookmark } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Savedjobs = () => {
    interface jobinfo{
@@ -19,6 +21,7 @@ const Savedjobs = () => {
 
     }
   const [allsavedjobsids,setallsavedjobsids]=useState<jobinfo[]>([]);
+  const navigate=useNavigate();
 
   useEffect(()=>{
    const allsavedjobs=async()=>{
@@ -43,22 +46,26 @@ const Savedjobs = () => {
   }
   return (
     <>
-      <div className="flex justify-center mt-10 px-4">
+      <div className="flex justify-center mt-12 px-6">
+         <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
         <div className="w-full max-w-5xl">
           <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
             💼 Saved Jobs
           
           </h1>
 
-          <div className="grid gap-6 md:grid-cols-2">
-           {allsavedjobsids.map((a:any)=>(
-             <div className="border border-gray-200 rounded-xl p-6 shadow-md bg-white hover:shadow-lg transition-shadow duration-200 ease-in-out">
+          <div className="space-y-8">
+          
+           {allsavedjobsids?.length>0 ? allsavedjobsids.map((a:any)=>(
+             <div key={a.job.id} className="border border-gray-200 rounded-xl p-6 shadow-md cursor-pointer bg-white hover:shadow-lg transition-shadow duration-200 ease-in-out">
               <h2 className="text-xl font-semibold text-blue-700 mb-3">
                 {a.job.title}
               </h2>
               <p className="text-gray-600 mb-4">{a.job.description}</p>
 
-              <div className="grid grid-cols-1 gap-2 text-sm text-gray-700 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 text-sm text-gray-700 sm:grid-cols-2" onClick={()=>{
+              navigate("/mainpage",{state:{id:a.job.id}})
+             }} >
                 <p>
                   <strong>📅 Post Date:{" "}</strong> {new Date(a.job.postedAt).toLocaleString("en-Us",{
                     year:"numeric",
@@ -96,12 +103,25 @@ const Savedjobs = () => {
                 onClick={()=>{
                   deletesaved(a.jobId);
                 }}
-                 className="bg-red-600 hover:bg-red-400 text-white px-5 py-2 rounded-lg shadow-sm transition-colors duration-200">
+                 className="bg-red-600 hover:bg-red-400 text-white ml-[500px] px-5 py-2 rounded-lg shadow-sm transition-colors duration-200">
                   Delete
                 </button>
               </div>
             </div>
-           ))}
+           )) : ( <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-200 rounded-2xl shadow-md p-10 max-w-lg mx-auto mt-10">
+      <Bookmark className="w-16 h-16 text-green-600 mb-4" />
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">
+        No Saved Jobs
+      </h2>
+      <p className="text-gray-600 mb-6">
+        You haven’t saved any jobs yet. Browse jobs and save the ones you’re
+        interested in to apply later.
+      </p>
+      <button
+      onClick={()=>{navigate("/mainpage")}} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full shadow transition">
+        Explore Jobs
+      </button>
+    </div>)}
           </div>
         </div>
       </div>
