@@ -1,7 +1,8 @@
-import { BookmarkCheck } from "lucide-react";
+import { BookmarkCheck, Briefcase, Search } from "lucide-react";
 import UseRecommend from "../../hooks/UseRecommend";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Recommended=()=>{
     interface jobinfo{
@@ -23,8 +24,8 @@ interface response{
    const [JobMessages,setJobMessages]=useState<Record<string,string>>({});
    const [recommendjobid,setrecommendjobid]=useState<Record<string,boolean>>({});
     const [savemessage,setsavemessage]=useState<Record<string,string>>({});
-   const {recommendjobs,message}=UseRecommend<jobinfo>();
-
+   const {recommendjobs}=UseRecommend<jobinfo>();
+    const navigate=useNavigate();
 
       const handleisapply=async(jobiid:string)=>{
       try{
@@ -89,12 +90,13 @@ useEffect(()=>{
 return (
   <>
   <div className="flex justify-center mt-12 px-6">
+     <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
   <div className="w-full max-w-5xl">
     <h1 className="text-3xl font-bold text-center text-blue-800 mb-8">
       🌟 Recommended Jobs
     </h1>
     <div className="space-y-8">
-      {recommendjobs.map((j) => (
+      {recommendjobs?.length>0 ? recommendjobs.map((j) => (
         <div
           key={j.id}
           className="border border-gray-200 rounded-2xl p-8 shadow-md bg-gradient-to-r from-blue-50 via-white to-blue-50 hover:shadow-xl hover:scale-[1.01] transition-all duration-300 ease-in-out"
@@ -189,7 +191,22 @@ return (
             </div>
           </div>
         </div>
-      ))}
+      )) :(
+    <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-200 rounded-2xl shadow-md p-10 max-w-lg mx-auto mt-10">
+      <Briefcase className="w-16 h-16 text-blue-600 mb-4" />
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">
+        No Recommended Jobs
+      </h2>
+      <p className="text-gray-600 mb-6">
+        It looks like there are no job recommendations available for you right
+        now. Update your profile or search for jobs to get better matches.
+      </p>
+      <button  onClick={()=>{navigate("/update/profile");}} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow transition">
+        <Search className="w-4 h-4" />
+        Update profile
+      </button>
+    </div>
+  )}
     </div>
   </div>
 </div>

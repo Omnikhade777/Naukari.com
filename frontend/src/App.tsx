@@ -13,6 +13,10 @@ import Myapplications from "./Components/Candidatepages/Myapplications"
 import Savedjobs from "./Components/Candidatepages/Savedjobs"
 import Recommended from "./Components/Candidatepages/Recommended"
 import Similarjobs from "./Components/Candidatepages/Similarjobs"
+import  Home  from "./Components/Home"
+import CreateProfile from "./Components/Candidatepages/CreateProfile"
+import Privateroute from "./Components/Routeprotection/Privateroute"
+import Publicroute from "./Components/Routeprotection/Publicroute"
 
 function App() {
 
@@ -20,22 +24,22 @@ function App() {
     <>
 <BrowserRouter>
 <Routes>
-<Route path="/signup" element={<Signup/>}/>
-<Route path="/signin" element={<Signin/>}/>
-<Route path="/user-signin" element={<CSignin/>}/>
-<Route path="/user-signup" element={<CSignup/>}/>
-<Route path="/adminfoget" element={<AdminForgetpass/>} />
-<Route path="/userreset-password" element={<CandidateResetpass/>}/>
-<Route path="/reset-password" element={<AdminResetpass />} />
-<Route path="/candidateforget" element={<CandidateForgetpass/>}/>
-<Route path="/mainpage" element={<Mainpage/>}/>
-<Route path="/update/profile" element={<UpdateProfile/>}/>
-<Route path="/allapplications" element={<Myapplications/>}/>
-<Route path="/savedjobs" element={<Savedjobs/>}/>
-<Route path="/recommendjobs" element={<Recommended/>}/>
-<Route path="/similarjobs" element={<Similarjobs/>}/>
-
-
+  <Route path="/" element={ <Publicroute><Home/></Publicroute> }/>
+<Route path="/signup" element={<Publicroute><Signup/></Publicroute>}/>
+<Route path="/signin" element={<Publicroute><Signin/></Publicroute>}/>
+<Route path="/user-signin" element={<Publicroute><CSignin/></Publicroute>}/>
+<Route path="/user-signup" element={<Publicroute><CSignup/></Publicroute>}/>
+<Route path="/adminfoget" element={<Publicroute><AdminForgetpass/></Publicroute>} />
+<Route path="/userreset-password" element={<Publicroute><CandidateResetpass/></Publicroute>}/>
+<Route path="/reset-password" element={<Publicroute><AdminResetpass /></Publicroute>} />
+<Route path="/candidateforget" element={<Publicroute><CandidateForgetpass/></Publicroute>}/>
+<Route path="/mainpage" element={ <Privateroute><Mainpage/></Privateroute>}/>
+<Route path="/update/profile" element={<Privateroute><UpdateProfile/></Privateroute>}/>
+<Route path="/allapplications" element={<Privateroute><Myapplications/></Privateroute>}/>
+<Route path="/savedjobs" element={<Privateroute><Savedjobs/></Privateroute>}/>
+<Route path="/recommendjobs" element={<Privateroute><Recommended/></Privateroute>}/>
+<Route path="/similarjobs" element={<Privateroute><Similarjobs/></Privateroute>}/>
+<Route path="/createprofile" element={<Privateroute><CreateProfile/></Privateroute> } />
 </Routes>
 </BrowserRouter>
     </>

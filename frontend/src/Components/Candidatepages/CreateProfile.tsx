@@ -2,8 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UpdateProfile = () => {
-    const navigate=useNavigate();
+const CreateProfile=()=>{
+ const navigate=useNavigate();
   const [profile, setProfile] = useState<any>({
     description: "",
     skills: [],
@@ -19,7 +19,11 @@ const UpdateProfile = () => {
       try {
         const response = await axios.get(
           "http://localhost:3000/api/v1/candidatehandler/myprofile",
-          { headers: { Authorization: localStorage.getItem("token") } }
+          { 
+            headers:{ 
+              Authorization: localStorage.getItem("token") 
+
+            } }
         );
         const parsed = response.data.parsedProfile;
         setProfile({
@@ -46,9 +50,9 @@ const UpdateProfile = () => {
   const handleUpdateFields = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(
-        "http://localhost:3000/api/v1/candidatehandler/update/profile",
+      await axios.post("http://localhost:3000/api/v1/candidatehandler/addinfotoprofile",
         {
+          profielphoto:"https://img.icons8.com/ios-filled/100/user-male-circle.png",
           description: profile.description,
           location: profile.location,
           skills: skillsInput.split(",").map((s) => s.trim()),
@@ -70,11 +74,11 @@ const UpdateProfile = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-10 bg-white shadow-lg rounded-xl p-6">
-      <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
-      <h2 className="text-2xl font-bold mb-6 text-center">Update Profile</h2>
+       <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> skip </button></div>
+      <h2 className="text-2xl font-bold mb-6 text-center">Create Profile</h2>
        <div className="flex flex-col items-center mb-6"> 
         <label className="relative w-32 h-32">
- <img src={profile.profielphoto || "https://img.icons8.com/ios-filled/100/user-male-circle.png"} 
+        <img src={profile.profielphoto || "https://img.icons8.com/ios-filled/100/user-male-circle.png"} 
        alt="Profile" className="w-32 h-32 rounded-full object-cover border-2 border-gray-300" /> 
        <input type="file" accept="image/*" className="hidden" id="photoInput" /> 
        <label htmlFor="photoInput" className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-700" > 
@@ -85,18 +89,14 @@ const UpdateProfile = () => {
           value={profile.description}
           onChange={handleChange}
           placeholder="About you"
-          className="w-full border rounded-lg p-2"
-        />
-
+          className="w-full border rounded-lg p-2"/>
         <input
           type="text"
           name="location"
           value={profile.location}
           onChange={handleChange}
           placeholder="Location"
-          className="w-full border rounded-lg p-2"
-        />
-
+          className="w-full border rounded-lg p-2"/>
         <input
           type="text"
           name="skills"
@@ -204,8 +204,7 @@ const UpdateProfile = () => {
                 exprerience: [...profile.exprerience, { company: "", role: "", years: "" }],
               })
             }
-            className="bg-blue-500 text-white px-3 py-1 rounded"
-          >
+            className="bg-blue-500 text-white px-3 py-1 rounded">
             + Add Experience
           </button>
         </div>
@@ -213,13 +212,12 @@ const UpdateProfile = () => {
         <button
           type="submit"
           onClick={()=>{navigate("/mainpage")}}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
-        >
-          Save Changes
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+          Add Info
         </button>
       </form>
     </div>
   );
-};
+}
 
-export default UpdateProfile;
+export default CreateProfile

@@ -28,7 +28,7 @@ const CSignin=()=>{
         setemail("");
         setpassword("");
         setloading(false);
-        navigate("/mainpage");
+        navigate("/createprofile");
     }catch(err){
        const error=err as AxiosError<{message:string}>;
        setmessages(error.response?.data?.message || "something went wrong");

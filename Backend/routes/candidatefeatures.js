@@ -228,7 +228,7 @@ route.get("/filterjobs",authcandidatemiddleware,async(req,res)=>{
 
           if(searchjobs.length===0){
             return res.status(400).json({
-                message:"no matching result"
+                message:"No matching result ?"
             })
           }
           return res.status(200).json({

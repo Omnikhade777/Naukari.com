@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Myapplications=()=>{
 
@@ -16,6 +17,7 @@ interface jobs{
     jobtype:string
 }
 const [applications,setapplications]=useState<jobs[]>([]);
+const navigate=useNavigate();
 
   
 
@@ -52,7 +54,9 @@ myapplications();
   }
     return (
         <>
+        
 <div className="flex justify-center mt-10 px-4">
+    <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
   <div className="w-full max-w-5xl">
     <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
       💼 Applied Jobs
