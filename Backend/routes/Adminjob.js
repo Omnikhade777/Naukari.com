@@ -16,6 +16,7 @@ const jobpostschema=zod.object({
     location:zod.string(),
     jobtype:zod.string()
 });
+
 route.post("/jobpost",authadminmiddleware,async(req,res)=>{
     const jobbody=req.body;
     const result=jobpostschema.safeParse(jobbody);
@@ -122,7 +123,9 @@ const jobupdateschema=zod.object({
 
 });
 route.put("/updatejob/:id",authadminmiddleware,async(req,res)=>{
+
    const postid=req.params.id;
+
     const result=jobupdateschema.safeParse(req.body);
     if(!result.success){
         return res.status(400).json({

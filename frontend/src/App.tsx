@@ -17,6 +17,9 @@ import  Home  from "./Components/Home"
 import CreateProfile from "./Components/Candidatepages/CreateProfile"
 import Privateroute from "./Components/Routeprotection/Privateroute"
 import Publicroute from "./Components/Routeprotection/Publicroute"
+import Landingpage from "./Components/Adminpage/Landingpage"
+import Aboutpage from "./Components/Adminpage/Aboutpage"
+import Jobchanges from "./Components/Adminpage/Jobchanges"
 
 function App() {
 
@@ -40,6 +43,9 @@ function App() {
 <Route path="/recommendjobs" element={<Privateroute><Recommended/></Privateroute>}/>
 <Route path="/similarjobs" element={<Privateroute><Similarjobs/></Privateroute>}/>
 <Route path="/createprofile" element={<Privateroute><CreateProfile/></Privateroute> } />
+<Route path="/landingpage" element={<Privateroute><Landingpage/></Privateroute> } />
+<Route path="/aboutadmin" element={<Privateroute><Aboutpage/></Privateroute> }/>
+<Route path="/joboperation" element={<Privateroute><Jobchanges/></Privateroute> }/>
 </Routes>
 </BrowserRouter>
     </>

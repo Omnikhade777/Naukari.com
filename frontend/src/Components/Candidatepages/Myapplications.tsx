@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Briefcase, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -47,9 +48,26 @@ myapplications();
 
  if (applications.length === 0) {
     return (
-      <h1 className="text-3xl font-bold mb-8 mt-9 text-center text-gray-800">
+      <>
+       <h1 className="text-3xl font-bold mb-8 mt-9 text-center text-gray-800">
         💼 No Applied jobs
       </h1>
+       <div className="flex flex-col items-center justify-center text-center bg-white border border-gray-200 rounded-2xl shadow-md p-10 max-w-lg mx-auto mt-10">
+      <Briefcase className="w-16 h-16 text-blue-600 mb-4" />
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">
+        No Applied Jobs
+      </h2>
+      <p className="text-gray-600 mb-6">
+       You haven’t applied for any jobs yet. Browse jobs and apply the ones you’re
+        interested in .
+      </p>
+      <button  onClick={()=>{navigate("/mainpage");}} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full shadow transition">
+        <Search className="w-4 h-4" />
+        Explore Jobs
+      </button>
+    </div>
+      </>
+      
     );
   }
     return (

@@ -250,7 +250,6 @@ return (
            {jobid===job.id ? "Applied" : "Apply Now"}
           </button>
           </div>
-          
           <div>
           <button
   onClick={() => {

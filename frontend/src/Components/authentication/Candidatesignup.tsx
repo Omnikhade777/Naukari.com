@@ -23,7 +23,7 @@ const CSignup=()=>{
           password
       });
 
-      const {id , message } = response.data;
+      const { message } = response.data;
       setmessages(message);
       setname("");
       setemail("");

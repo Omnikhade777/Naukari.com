@@ -4,6 +4,32 @@ const route=express.Router();
 const {PrismaClient}=require("@prisma/client");
 const prisma=new PrismaClient;
 
+route.get("/aboutadmin",authadminmiddleware,async(req,res)=>{
+ const adminid=req.id;
+ 
+ const data=await prisma.admin.findUnique({
+   where:{
+      id:adminid
+   },
+   select:{
+      id:true,
+      name:true,
+      email:true,
+   }
+ });
+
+ if(data){
+  return  res.status(200).json({
+      message:"admin data",
+      data
+   })
+ }
+ return  res.status(404).json({
+ message:"admin not found",
+ })
+})
+
+
 route.get("/job-applications/:id",authadminmiddleware,async(req,res)=>{
       const jobid=req.params.id.trim();
       const adminId=req.id;
