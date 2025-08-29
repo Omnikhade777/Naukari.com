@@ -27,7 +27,7 @@ const Signin=()=>{
         setemail("");
         setpassword("");
         setmessages(message);
-        navigate("/dashbord")
+        navigate("/landingpage")
       }catch(err){
         console.log(err);
         const error=err as AxiosError<{message:string}>

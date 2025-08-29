@@ -85,6 +85,33 @@ route.get("/adminpostedjobs/:id",async(req,res)=>{
     }
 })
 
+route.get("/job/:id",async(req,res)=>{
+    try{
+    const jobid=req.params.id;
+    const postedjob=await prisma.job.findMany({
+        where:{
+            id:jobid
+        }
+    });
+    if(postedjob.length===0){
+        return res.json({
+            message:"there are no posts",
+            posts:[]
+        });
+    }else{
+        return res.json({
+            message:"job post",
+            job:postedjob
+        });
+    }
+    }catch(error){
+           return res.status(500).json({
+      message: "Something went wrong",
+      error: error.message
+    }); 
+    }
+})
+
 
 route.get("/alljobpost",async(req,res)=>{
     try{
@@ -116,18 +143,17 @@ const jobupdateschema=zod.object({
     postedAt: zod.coerce.date().optional(),
     deadline: zod.coerce.date().optional(),  
     isActive: zod.boolean().optional(),
-    skillsrequired:zod.string().optional(),
+    skillsrequired:zod.array(zod.string()).optional(),
     salary:zod.string().optional(),
     location:zod.string().optional(),
     jobtype:zod.string().optional()
 
 });
 route.put("/updatejob/:id",authadminmiddleware,async(req,res)=>{
-
    const postid=req.params.id;
-
     const result=jobupdateschema.safeParse(req.body);
     if(!result.success){
+      
         return res.status(400).json({
             message:"invalid inputs"
         });

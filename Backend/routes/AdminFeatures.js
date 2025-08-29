@@ -27,7 +27,7 @@ route.get("/aboutadmin",authadminmiddleware,async(req,res)=>{
  return  res.status(404).json({
  message:"admin not found",
  })
-})
+});
 
 
 route.get("/job-applications/:id",authadminmiddleware,async(req,res)=>{

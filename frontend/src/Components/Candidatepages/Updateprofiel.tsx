@@ -74,7 +74,7 @@ const UpdateProfile = () => {
       <h2 className="text-2xl font-bold mb-6 text-center">Update Profile</h2>
        <div className="flex flex-col items-center mb-6"> 
         <label className="relative w-32 h-32">
- <img src={profile.profielphoto || "https://img.icons8.com/ios-filled/100/user-male-circle.png"} 
+        <img src={profile.profielphoto || "https://img.icons8.com/ios-filled/100/user-male-circle.png"} 
        alt="Profile" className="w-32 h-32 rounded-full object-cover border-2 border-gray-300" /> 
        <input type="file" accept="image/*" className="hidden" id="photoInput" /> 
        <label htmlFor="photoInput" className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-700" > 

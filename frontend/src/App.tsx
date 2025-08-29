@@ -20,6 +20,7 @@ import Publicroute from "./Components/Routeprotection/Publicroute"
 import Landingpage from "./Components/Adminpage/Landingpage"
 import Aboutpage from "./Components/Adminpage/Aboutpage"
 import Jobchanges from "./Components/Adminpage/Jobchanges"
+import Applications from "./Components/Adminpage/Applications"
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
 <Route path="/landingpage" element={<Privateroute><Landingpage/></Privateroute> } />
 <Route path="/aboutadmin" element={<Privateroute><Aboutpage/></Privateroute> }/>
 <Route path="/joboperation" element={<Privateroute><Jobchanges/></Privateroute> }/>
+<Route path="/application" element={<Privateroute><Applications/></Privateroute> }/>
 </Routes>
 </BrowserRouter>
     </>

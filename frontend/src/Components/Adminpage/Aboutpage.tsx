@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Adminposts from "./Adminposts";
 import Postjobs from "./Postjobs";
+import { useNavigate } from "react-router-dom";
 
 const Aboutpage=()=>{
 
@@ -34,6 +35,8 @@ const Aboutpage=()=>{
     const [jobs,setjobs]=useState<alljobposts[]>([]);
     const [toggle,settoggle]=useState(false);
 
+    const navigate=useNavigate();
+
     useEffect(()=>{
         const getresponse=async()=>{
         const response=await axios.get("http://localhost:3000/api/v1/adminoperations/aboutadmin",{
@@ -51,7 +54,16 @@ const Aboutpage=()=>{
         getresponse();
     },[]);
 
- 
+    const handledeletejob=async(jobid:string)=>{
+     await axios.delete(`http://localhost:3000/api/v1/adminjobhandler/deletepostbyid/${jobid}`,{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    })
+    setjobs(jobs.filter((a)=>a.id !== jobid));
+    
+  }
+
    useEffect(()=>{
     const getjobpostedbyadmin=async()=>{
     if (!infodata.id) return;
@@ -65,10 +77,18 @@ const Aboutpage=()=>{
 
     return(
         <>
+    
         <div className="min-h-screen bg-gray-50 p-6">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div className="col-span-1">
     <div className="sticky  top-6">
+        <div>
+          <button 
+          onClick={()=>{navigate("/landingpage")}}
+       className="px-6 py-2  bg-gray-400 text-white rounded shadow-sm hover:bg-gray-500 transition font-medium">
+    Back
+  </button>
+        </div>
  <div className="bg-white h-[60vh] flex flex-col items-center justify-center  mt-20 shadow-xl rounded-2xl p-8 border border-gray-100">
 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
     {infodata.name || "Company Name"}
@@ -84,18 +104,21 @@ const Aboutpage=()=>{
     </div>
  </div>
 
-<div className="mt-14 flex justify-center gap-4">
-  <button className="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-full shadow-sm hover:bg-gray-100 transition font-medium">
-    Edit Details
-  </button>
-
-  <button
-  onClick={()=>{settoggle(true)}}
-   className="px-6 py-2 bg-blue-600 text-white rounded-full shadow-sm hover:bg-blue-700 transition font-medium">
-    Post Job
-  </button>
-
+<div className="mt-14 flex flex-col items-center gap-4">
+  <div className="flex justify-center gap-6">
+    <button onClick={()=>{settoggle1(true)}} className="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-full shadow-sm hover:bg-gray-100 transition font-medium">
+      Most Applicable Jobs
+    </button>
+    <button
+      onClick={() => { settoggle(true) }}
+      className="px-6 py-2 bg-blue-600 text-white rounded-full shadow-sm hover:bg-blue-700 transition font-medium" > Post Job
+    </button>
+  </div>
+  <div className="w-[calc(100%-40%)] max-w-md text-center px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium shadow-sm">
+    Jobs Posted: {jobs.length}
+  </div>
 </div>
+
 <div className="mt-6">
  {toggle && <button 
   onClick={()=>{settoggle(false)}}
@@ -106,13 +129,13 @@ const Aboutpage=()=>{
     </div>
 </div>
   </div>
-   {
+    {
      toggle ?
       <div className="col-span-2 mt-8">
      <Postjobs/>
  </div>:
       <div className="col-span-2">
-     <Adminposts jobs={jobs}/>
+     <Adminposts jobs={jobs} onDelete={handledeletejob}/>
  </div>
    } 
   </div>
