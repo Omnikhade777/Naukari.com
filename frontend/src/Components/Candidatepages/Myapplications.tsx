@@ -16,8 +16,11 @@ interface jobs{
     salary:string,
     location:string,
     jobtype:string
+    appliedAt:string,
+    status:string
 }
 const [applications,setapplications]=useState<jobs[]>([]);
+
 const navigate=useNavigate();
 
   
@@ -29,7 +32,12 @@ const myapplications=async()=>{
         Authorization:localStorage.getItem("token"),
     }
  });
- setapplications(response.data.alljobs.map((j:any) => j.job));
+setapplications(response.data.alljobs.map((j: any) => ({
+    ...j.job,              
+    appliedAt: j.appliedAt,
+    status: j.status
+  }))
+   ); 
 }
 
 myapplications();
@@ -74,18 +82,22 @@ myapplications();
         <>
         
 <div className="flex justify-center mt-10 px-4">
-    <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
   <div className="w-full max-w-5xl">
-    <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
-      💼 Applied Jobs
-    </h1>
-
-    <div className="grid gap-6 md:grid-cols-2">
+   <div className="flex justify-center px-6">
+  <div className=" fixed  top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div className="flex items-center justify-between max-w-4xl mx-auto px-6 py-4">
+      <button className=" absolute left-0 ml-6 bg-gray-200 px-4 py-2  rounded"onClick={() => navigate("/mainpage")}>
+        Back
+      </button>
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center w-full">💼Applied Jobs</h1>
+        </div>
+  </div>
+</div>
+    <div className="grid gap-6 md:grid-cols-2 mt-14">
       {applications.map((job) => (
         <div
           key={job.id}
-          className="border border-gray-200 rounded-xl p-6 shadow-md bg-white hover:shadow-lg transition-shadow duration-200 ease-in-out"
-        >
+          className="border border-gray-200 rounded-xl p-6 shadow-md bg-white hover:shadow-lg transition-shadow duration-200 ease-in-out">
           <h2 className="text-xl font-semibold text-blue-700 mb-3">{job.title}</h2>
           <p className="text-gray-600 mb-4">{job.description}</p>
 
@@ -121,13 +133,18 @@ myapplications();
             <p>
               <strong>✅ Active:</strong>{" "}
               <span
-                className={job.isActive ? "text-green-600 font-medium" : "text-red-500"}
-              >
-                {job.isActive ? "Yes" : "No"}
+                className={(new Date() <= new Date(job.deadline)) ? "text-green-600 font-medium" : "text-red-500 font-medium"}>
+                {(new Date() <= new Date(job.deadline)) ? "Yes" : "No"}
               </span>
             </p>
+            <p>
+              <strong>📅Applied date: </strong>{job.appliedAt.split("T")[0]}
+            </p>
+             <p>
+              <strong>📌Status: </strong><span className={job.status === "PENDING"? "text-yellow-500 font-medium": job.status === "REJECTED" ? "text-red-500 font-medium"
+      : "text-green-500 font-medium" }>{job.status}</span>
+            </p>
           </div>
-
           <div className="mt-4 text-center">
             <button
              onClick={()=>{

@@ -230,13 +230,11 @@ return (
             <strong>📂 Job Type:</strong> {job.jobtype}
           </p>
           <p>
+            
             <strong>✅ Active:</strong>{" "}
             <span
-              className={
-                job.isActive ? "text-green-600 font-medium" : "text-red-500"
-              }
-            >
-              {job.isActive ? "Yes" : "No"}
+              className={(new Date() <= new Date(job.deadline)) ? "text-green-600 font-medium" : "text-red-500 font-medium"}>
+              {(new Date() <= new Date(job.deadline)) ? "Yes" : "No"}
             </span>
           </p>
         </div>

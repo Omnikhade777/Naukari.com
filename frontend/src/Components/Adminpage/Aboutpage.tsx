@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Adminposts from "./Adminposts";
 import Postjobs from "./Postjobs";
 import { useNavigate } from "react-router-dom";
+import Mostappliedjobs from "./Mostappliedjobs";
 
 const Aboutpage=()=>{
 
@@ -33,7 +34,7 @@ const Aboutpage=()=>{
     });
    
     const [jobs,setjobs]=useState<alljobposts[]>([]);
-    const [toggle,settoggle]=useState(false);
+    const [view, setView] = useState<"admin"|"post"|"most">("admin");
 
     const navigate=useNavigate();
 
@@ -71,7 +72,6 @@ const Aboutpage=()=>{
     const jobsdata=response.data.posts;
     setjobs(jobsdata);
     }
-
     getjobpostedbyadmin()
    },[infodata.id])
 
@@ -106,11 +106,11 @@ const Aboutpage=()=>{
 
 <div className="mt-14 flex flex-col items-center gap-4">
   <div className="flex justify-center gap-6">
-    <button onClick={()=>{settoggle1(true)}} className="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-full shadow-sm hover:bg-gray-100 transition font-medium">
+    <button onClick={()=>{setView("most")}} className="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-full shadow-sm hover:bg-gray-100 transition font-medium">
       Most Applicable Jobs
     </button>
     <button
-      onClick={() => { settoggle(true) }}
+      onClick={() => { setView("post") }}
       className="px-6 py-2 bg-blue-600 text-white rounded-full shadow-sm hover:bg-blue-700 transition font-medium" > Post Job
     </button>
   </div>
@@ -120,8 +120,8 @@ const Aboutpage=()=>{
 </div>
 
 <div className="mt-6">
- {toggle && <button 
-  onClick={()=>{settoggle(false)}}
+ {(view==="post"|| view==="most") && <button 
+  onClick={()=>{setView("admin")}}
    className="px-6 py-2  bg-gray-400 text-white rounded-full shadow-sm hover:bg-gray-500 transition font-medium">
     Back
   </button> }
@@ -129,15 +129,11 @@ const Aboutpage=()=>{
     </div>
 </div>
   </div>
-    {
-     toggle ?
-      <div className="col-span-2 mt-8">
-     <Postjobs/>
- </div>:
-      <div className="col-span-2">
-     <Adminposts jobs={jobs} onDelete={handledeletejob}/>
- </div>
-   } 
+  <div className="col-span-2 mt-8">
+   {view==="post" &&  <Postjobs/>}
+   {view==="admin" && <Adminposts jobs={jobs} onDelete={handledeletejob}/>}
+  {view==="most" && <Mostappliedjobs/>}
+  </div>
   </div>
 </div>
 

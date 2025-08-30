@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 const Adminposts=({jobs ,onDelete}:any)=>{
   
 
-  
   const navigate=useNavigate();
  
     return (
         <>
-         <div className="flex justify-center mt-6">
-        <strong className="text-3xl">Your Posted Jobs </strong>
+         <div className="col-span-2 mt-8 flex flex-col h-[80vh]">
+       <div className="flex justify-center mb-4">
+        <strong className="text-3xl">Your Posted Jobs</strong>
       </div>
-      <div className="h-[80vh] overflow-y-auto pr-3 mt-6">
+     <div className="flex-1 overflow-y-auto pr-3">
         {jobs.map((a:any) => (
           <div key={a.id}
           onClick={()=>{
@@ -22,12 +22,16 @@ const Adminposts=({jobs ,onDelete}:any)=>{
             <div className="flex justify-between items-start">
               <h2 className="text-xl font-semibold text-blue-700">{a.title}</h2>
               <span
-                className={`px-3 py-1 text-xs font-medium rounded-full ${a.isActive ? "bg-green-100 text-green-700": "bg-red-100 text-red-700"}`}>
-                {a.isActive ? "Active" : "Closed"}
-              </span>
+           className={`px-3 py-1 text-xs font-medium rounded-full ${(new Date() <= new Date(a.deadline))
+             ? "bg-green-100 text-green-700": "bg-red-100 text-red-700"}`}>
+            {(new Date() <= new Date(a.deadline))
+           ? "Active"
+            : "Closed"}
+           </span>
             </div>
             <p className="text-gray-700 mt-2">{a.description}</p>
             <div className="flex gap-6 mt-3 text-sm text-gray-500">
+          
               <span>📅 Posted: {new Date(a.postedAt).toLocaleDateString()}</span>
               <span>
                 ⏳ Deadline: {new Date(a.deadline).toLocaleDateString()}
@@ -60,22 +64,10 @@ const Adminposts=({jobs ,onDelete}:any)=>{
                <button onClick={(e) => { e.stopPropagation(); onDelete(a.id)}} >delete</button>
               </span>
             </div>
-       
-           <button
-           onClick={(e)=>{
-            e.stopPropagation();
-            navigate("/application",{state:{id:a.id}});
-
-           }}
-              className="px-3 py-2 mt-5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 
-             text-white font-semibold shadow-md hover:shadow-lg 
-             hover:scale-105 transition-transform duration-200">
-             Application's
-            </button>
     </div>
  ))}
-
- </div>
+  </div>
+</div>
         
         </>
     )

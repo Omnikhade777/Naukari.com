@@ -77,9 +77,10 @@ route.get("/job-applications/:id",authadminmiddleware,async(req,res)=>{
 
 //route for mostapplied jobs and number of candidates and jobs
 route.get("/stats",authadminmiddleware,async(req,res)=>{
-      const numberofcandidates=await prisma.candidate.count();
-      const numbersofjobsposted=await prisma.job.count();
       const jobwithapplicationcount=await prisma.job.findMany({
+         where:{
+         adminId:req.id
+         },
          include:{
             _count:{
                select:{
@@ -94,11 +95,40 @@ route.get("/stats",authadminmiddleware,async(req,res)=>{
       }
       })
   return res.status(200).json({
-    message:{
-      candidate: `Total numbers of candidates ${numberofcandidates}`,
-      jobs:`Total numbers of jobs ${numbersofjobsposted}`,
       mostapplied: jobwithapplicationcount
-     }
   })
-})
+});
+
+route.post("/handleapplicationstatus/:id/:userid", authadminmiddleware, async (req, res) => {
+  const jobid = req.params.id;
+  const candidateid = req.params.userid;
+  try {
+    const findjob = await prisma.application.findFirst({
+      where: {
+        jobId: jobid,
+        candidateId: candidateid,
+      },
+    });
+
+    if (!findjob) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+    const updatedApp = await prisma.application.update({
+      where: {
+        id: findjob.id, 
+      },
+    data: { status: req.body.status },
+    });
+
+    res.json({ message:"Status sent"});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+       message: "Error updating application status"
+      });
+  }
+});
+
+
+
 module.exports=route;

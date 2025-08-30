@@ -23,11 +23,11 @@ const Header=({trigger,handelabout}:any)=>{
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
           Logout
         </button>
-          <button 
+        {location.pathname !=="/landingpage" && <button 
        onClick={trigger}
        className="bg-gray-200 px-4 py-2 rounded">
        All jobs
-       </button>
+       </button>}
        {location.pathname==="/landingpage" &&
        <button
         onClick={handelabout}

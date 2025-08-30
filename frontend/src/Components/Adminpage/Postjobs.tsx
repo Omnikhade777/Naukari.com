@@ -12,8 +12,8 @@ const Postjobs=()=>{
   const [location,setlocation]=useState<string>("")
   const [jobtype,setjobtype]=useState<string>("")
   const [message,setmessage]=useState<string>("");
-  const [loading,setloading]=useState<boolean>(false);
-
+  const [loading,setloading]=useState<boolean>(false); 
+  
   const postjob=async(e: React.FormEvent)=>{
      e.preventDefault();
      try{
@@ -24,7 +24,6 @@ const Postjobs=()=>{
       postedAt,
       deadline,
       skillsrequired,
-      isActive:true,
       salary,
       location,
       jobtype

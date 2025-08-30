@@ -10,7 +10,6 @@ const jobpostschema=zod.object({
     description:zod.string(),
     postedAt: zod.coerce.date().optional(),
     deadline: zod.coerce.date(),  
-    isActive: zod.boolean(),
     skillsrequired:zod.array(zod.string()),
     salary:zod.string(),
     location:zod.string(),
@@ -26,6 +25,10 @@ route.post("/jobpost",authadminmiddleware,async(req,res)=>{
      });
     }
     const body=result?.data;
+    const today=new Date();
+    const ispostedAt=new Date(body.postedAt);
+    const isdeadline=new Date(body.deadline);
+    const isActive = today>=ispostedAt && today<=isdeadline;
     try{
       const postjob = await prisma.job.create({
       data: {
@@ -33,7 +36,7 @@ route.post("/jobpost",authadminmiddleware,async(req,res)=>{
            description: body.description,
            postedAt: body.postedAt ? new Date(body.postedAt) : undefined,
            deadline: body.deadline,
-           isActive: body.isActive ?? true,
+           isActive:isActive ?? false,
            adminId: req.id,
            skillsrequired:body.skillsrequired,
            salary:body.salary,     
@@ -142,7 +145,6 @@ const jobupdateschema=zod.object({
     description:zod.string().optional(),
     postedAt: zod.coerce.date().optional(),
     deadline: zod.coerce.date().optional(),  
-    isActive: zod.boolean().optional(),
     skillsrequired:zod.array(zod.string()).optional(),
     salary:zod.string().optional(),
     location:zod.string().optional(),
@@ -170,6 +172,10 @@ route.put("/updatejob/:id",authadminmiddleware,async(req,res)=>{
         message:"there is no post"
       });
     }
+    const today=new Date();
+    const ispostedAt=new Date(updatebody.postedAt);
+    const isdeadline=new Date(updatebody.deadline);
+    const isActive = today>=ispostedAt && today<=isdeadline;
     const updatepost=await prisma.job.update({
         where:{
             id:postid
@@ -179,7 +185,7 @@ route.put("/updatejob/:id",authadminmiddleware,async(req,res)=>{
             description:updatebody.description ?? isexist.description,
             postedAt:updatebody.postedAt ? new Date(updatebody.postedAt) : isexist.postedAt,
             deadline:updatebody.deadline ?? isexist.deadline ,
-            isActive:updatebody.isActive ?? isexist.isActive,
+            isActive:isActive,
             skillsrequired:updatebody.skillsrequired ?? isexist.skillsrequired,
             salary:updatebody.salary ?? isexist.salary,
             location:updatebody.location ?? isexist.location,

@@ -1,11 +1,14 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Applications=()=>{
     const location=useLocation();
     const id=location.state.id;
+    const navigate=useNavigate()
     const [applicationinfo,setapplicationinfo]=useState<any>([]);
+    const[message,setmessage]=useState<any>({});
+    
 
     useEffect(()=>{
      const getapplicationdata=async()=>{
@@ -20,14 +23,43 @@ const Applications=()=>{
      getapplicationdata();
     },[id]);
   
+  const handlestate=async(jobid:string,candidateid:string,state:string)=>{
+    try{
+    const response=await axios.post(`http://localhost:3000/api/v1/adminoperations/handleapplicationstatus/${jobid}/${candidateid}`,{
+       status:state,
+    },{
+      headers:{
+        Authorization:localStorage.getItem("token")
+      }
+    });
+    const {message}=response.data;
+    setmessage((prev:any)=>({
+      ...prev,
+    [jobid]:message}));
+    }catch(err){
+      const error=err as AxiosError<{message:string}>
+      setmessage((prev:any)=>({
+        ...prev,
+        [jobid]:error.response?.data?.message || "something went wrong"
+      }))
+    }
+  }
+
+  useEffect(()=>{
+ const timer=setTimeout(()=>{
+  setmessage({})
+ },2000);
+ return ()=>clearTimeout(timer);
+
+  },[message])
     return(
 <>
   <div className="h-screen flex flex-col">
   <div className="flex items-center justify-between px-6 py-6 border-b bg-white shadow-md">
-    <button onClick={() => window.history.back()}
- className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg bg-gray-300 hover:bg-gray-200 transition">
+    <button onClick={() => navigate(-1)}
+     className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg bg-gray-300 hover:bg-gray-200 transition">
        Back
- </button>
+     </button>
  <h1 className="text-3xl font-bold text-gray-800">Applicants</h1>
 <div className="w-16" />
   </div>
@@ -60,13 +92,16 @@ const Applications=()=>{
  </div>
      </div>
     <div className="mt-6 flex gap-3 justify-end">
- <button className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition text-sm"> View
+     <button onClick={()=>{handlestate(a.jobId,a.candidateId,"ACCEPTED");}} className="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-md transition text-sm"> Accept
             </button>
-    <button className="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-md transition text-sm"> Accept
+     <button onClick={()=>{handlestate(a.jobId,a.candidateId,"REJECTED");}} className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition text-sm"> Reject
             </button>
-<button className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition text-sm"> Reject
-            </button>
+  
 </div>
+<div className="mt-6 flex gap-3 mr-7 justify-end">
+  <span className={message[a.jobId]==="Status sent"? "mt-3 text-green-500 font-medium" : " mt-3 text-red-500 font-medium"}>{message[a.jobId]}</span>
+</div>
+
      </div>
 </div> ))}
     </div>

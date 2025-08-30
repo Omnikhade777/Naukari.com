@@ -51,8 +51,8 @@ const Landingpage=()=>{
         <div className="flex justify-between items-start">
     <h2 className="text-xl font-semibold text-blue-700">{a.title}</h2>
     <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-        a.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-      {a.isActive ? "Active" : "Closed"}
+       (new Date() <= new Date(a.deadline)) ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+      {(new Date() <= new Date(a.deadline)) ? "Active" : "Closed"}
     </span>
   </div>
   <p className="text-gray-700 mt-2">{a.description}</p>

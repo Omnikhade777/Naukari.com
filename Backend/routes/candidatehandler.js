@@ -181,7 +181,9 @@ route.get("/myallapplicatons",authcandidatemiddleware,async(req,res)=>{
              candidateId: candidateid
               },
                select: {
-                     job: true
+                     job: true,
+                     appliedAt:true,
+                     status:true
                     }
              });
              
