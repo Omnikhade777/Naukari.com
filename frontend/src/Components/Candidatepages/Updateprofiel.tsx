@@ -76,9 +76,7 @@ const UpdateProfile = () => {
         <label className="relative w-32 h-32">
         <img src={profile.profielphoto || "https://img.icons8.com/ios-filled/100/user-male-circle.png"} 
        alt="Profile" className="w-32 h-32 rounded-full object-cover border-2 border-gray-300" /> 
-       <input type="file" accept="image/*" className="hidden" id="photoInput" /> 
-       <label htmlFor="photoInput" className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-700" > 
-        + </label> </label> <p className="text-sm text-gray-500 mt-2">Click + to change photo</p> </div>
+       </label> </div>
       <form className="space-y-4" onSubmit={handleUpdateFields}>
         <textarea
           name="description"

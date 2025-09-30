@@ -42,7 +42,7 @@ const Aboutpage=()=>{
         const getresponse=async()=>{
         const response=await axios.get("http://localhost:3000/api/v1/adminoperations/aboutadmin",{
             headers:{
-              Authorization:localStorage.getItem("token")
+              Authorization:localStorage.getItem("admintoken")
             }
         })
         const admininfo=response?.data?.data;
@@ -58,7 +58,7 @@ const Aboutpage=()=>{
     const handledeletejob=async(jobid:string)=>{
      await axios.delete(`http://localhost:3000/api/v1/adminjobhandler/deletepostbyid/${jobid}`,{
       headers:{
-        Authorization:localStorage.getItem("token")
+        Authorization:localStorage.getItem("admintoken")
       }
     })
     setjobs(jobs.filter((a)=>a.id !== jobid));

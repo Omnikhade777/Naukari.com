@@ -18,8 +18,13 @@ const Header=({trigger,handelabout}:any)=>{
               
         <div className="flex items-center gap-14">
         <button
-          onClick={() =>{localStorage.removeItem("token");
-             navigate("/user-signin") }}
+      onClick={() =>{ if (location.pathname === "/mainpage") {
+    localStorage.removeItem("token");
+    navigate("/user-signin");
+  } else if (location.pathname === "/landingpage") {
+    localStorage.removeItem("admintoken");
+    navigate("/signin");
+  }}}
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
           Logout
         </button>

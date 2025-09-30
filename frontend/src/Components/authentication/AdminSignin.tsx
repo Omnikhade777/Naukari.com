@@ -23,7 +23,7 @@ const Signin=()=>{
             password
         });
         const {token,message, id}=response.data;
-        localStorage.setItem("token",token);
+        localStorage.setItem("admintoken",token);
         setemail("");
         setpassword("");
         setmessages(message);

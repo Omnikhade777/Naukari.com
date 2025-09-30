@@ -53,7 +53,7 @@ const Profile=()=>{
     </div>
     <div className="px-4 pb-4">
       <h3 className="text-lg font-semibold text-purple-600 mb-2">Experience</h3>
-      { profile?.exprerience && profile?.exprerience?.lenght>0  ? profile?.exprerience?.map((exp: any, index: number) => (
+      { profile?.exprerience && profile?.exprerience?.length >0 ? profile?.exprerience?.map((exp: any, index: number) => (
         <div key={index}
           className="bg-gray-100 p-2 rounded-lg mb-2 text-gray-800">
           <strong>{exp.company}</strong><br></br>{exp.role} ({exp.years} years)
@@ -62,10 +62,9 @@ const Profile=()=>{
     </div>
     <div className="px-4 pb-4">
       <h3 className="text-lg font-semibold text-orange-600 mb-2">Education</h3>
-      {profile?.education && profile?.education?.lenght> 0 ? profile?.education?.map((edu: any, index: number) => (
+      {profile?.education && profile?.education?.length > 0 ? profile?.education?.map((edu: any, index: number) => (
         <div key={index}
-          className="bg-gray-100 p-2 rounded-lg mb-2 text-gray-800"
-        >
+          className="bg-gray-100 p-2 rounded-lg mb-2 text-gray-800">
           <strong>{edu.degree}</strong> from {edu.institute} ({edu.year})
         </div>
       )): "Not given"}

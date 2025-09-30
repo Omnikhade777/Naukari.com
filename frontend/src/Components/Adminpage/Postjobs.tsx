@@ -29,7 +29,7 @@ const Postjobs=()=>{
       jobtype
     },{
       headers:{
-        Authorization:localStorage.getItem("token")
+        Authorization:localStorage.getItem("admintoken")
       }
     });
       

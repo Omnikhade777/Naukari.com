@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Shimmer from "../Shimmer";
 
 const Applications=()=>{
     const location=useLocation();
@@ -8,17 +9,20 @@ const Applications=()=>{
     const navigate=useNavigate()
     const [applicationinfo,setapplicationinfo]=useState<any>([]);
     const[message,setmessage]=useState<any>({});
+    const [loading,setloading]=useState<boolean>(false)
     
 
     useEffect(()=>{
      const getapplicationdata=async()=>{
+      setloading(true)
         const response=await axios.get(`http://localhost:3000/api/v1/adminoperations/job-applications/${id}`,{
             headers:{
-                Authorization:localStorage.getItem("token"),
+                Authorization:localStorage.getItem("admintoken"),
             }
         });
         const {getalljobapplications}=response?.data;
       setapplicationinfo(getalljobapplications.applications);
+      setloading(false)
      }
      getapplicationdata();
     },[id]);
@@ -29,7 +33,7 @@ const Applications=()=>{
        status:state,
     },{
       headers:{
-        Authorization:localStorage.getItem("token")
+        Authorization:localStorage.getItem("admintoken")
       }
     });
     const {message}=response.data;
@@ -51,7 +55,22 @@ const Applications=()=>{
  },2000);
  return ()=>clearTimeout(timer);
 
-  },[message])
+  },[message]);
+
+   if(loading){
+  return(<>
+   <div className="pt-20 px-4 bg-gradient-to-br from-gray-50 to-white min-h-screen">
+          <div className="max-w-3xl mx-auto space-y-6">
+            {Array(4)
+              .fill(0)
+              .map((_, indx) => (
+                <Shimmer key={indx} />
+              ))}
+          </div>
+        </div>
+        </>
+        )
+ }
     return(
 <>
   <div className="h-screen flex flex-col">

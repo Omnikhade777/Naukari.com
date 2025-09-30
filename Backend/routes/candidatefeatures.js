@@ -122,8 +122,8 @@ route.get("/recomendedjobs",authcandidatemiddleware,async(req,res)=>{
      if (!findcandidate) {
      return res.status(404).json({ message: "Candidate not found" });
       }
-     const recomendjobs=await prisma.job.findMany({
-        where: {
+   const recomendjobs = await prisma.job.findMany({
+  where: {
     OR: [
       {
         skillsrequired: {
@@ -131,12 +131,14 @@ route.get("/recomendedjobs",authcandidatemiddleware,async(req,res)=>{
         },
       },
       {
-        location: findcandidate.location,
+        location: {
+          equals: findcandidate.location,
+          mode: "insensitive",
+        },
       },
-     ],
-     },
-     })
-     
+    ],
+  },
+});
      if(recomendjobs.length===0){
         return res.status(200).json({
             message:"no recomended jobs"

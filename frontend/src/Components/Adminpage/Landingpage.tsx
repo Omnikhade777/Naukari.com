@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Header from "../Candidatepages/Header";
 import Problem from "../Problem";
 import { useNavigate } from "react-router-dom";
+import Shimmer from "../Shimmer";
 
 const Landingpage=()=>{
 
@@ -22,15 +23,40 @@ const Landingpage=()=>{
 
     const [alljobs,setalljobs]=useState<alljobposts[]>([]);
     const navigate =useNavigate();
+    const [loading,setloading]=useState<boolean>(false);
     useEffect(()=>{
+        try{
         const getalljobs=async()=>{
+          setloading(true)
         const response=await axios.get("http://localhost:3000/api/v1/adminjobhandler/alljobpost");
         const {posts }=response.data;
         setalljobs(posts);
+        setloading(false)
+       
         }
-        getalljobs();
-    },[])
 
+       getalljobs();
+      }catch(err){
+       console.log(err);
+         setloading(false)
+      }
+    },[]);
+    
+ if(loading){
+  return(<>
+    <Header handelabout={()=>{navigate("/aboutadmin")}}/>
+   <div className="pt-20 px-4 bg-gradient-to-br from-gray-50 to-white min-h-screen">
+          <div className="max-w-3xl mx-auto space-y-6">
+            {Array(4)
+              .fill(0)
+              .map((_, indx) => (
+                <Shimmer key={indx} />
+              ))}
+          </div>
+        </div>
+        </>
+        )
+ }
    if (alljobs.length <= 0) {
     return <Problem/>;
     }

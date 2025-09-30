@@ -174,9 +174,9 @@ return (
   <div className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
     <Header trigger={handleback}/>
   </div>
-<div className="flex-1 mt-28 px-8 fixed top-0 left-0 w-full z-50">
-  <div className="w-full max-w-md mx-auto">
-<div className="relative">
+<div className="flex-1 mt-28 px-8 fixed top-0 left-0 w-full z-50 backdrop-blur-sm">
+  <div className="w-full max-w-md mx-auto ">
+<div className="relative ">
   <span className="absolute inset-y-0 left-4 flex items-center"> <Search className="text-gray-500" size={20} /></span>
   <input onChange={(e) => setsearchitem(e.target.value)}
         type="text"

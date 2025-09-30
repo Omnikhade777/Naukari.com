@@ -5,3 +5,9 @@ const Privateroute=({children}:any)=>{
     return token ? children : <Navigate to="/"/>;
 }
 export default Privateroute;
+
+
+export const Privaterouteforadmin=({children}:any)=>{
+    const token=localStorage.getItem("admintoken");
+    return token ? children : <Navigate to="/"/>;
+}

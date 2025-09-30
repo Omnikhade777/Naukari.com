@@ -29,7 +29,7 @@ const Mostappliedjobs=()=>{
      const getmostappliedjobs=async()=>{
      const response =await axios.get<mostappliedschema>("http://localhost:3000/api/v1/adminoperations/stats",{
         headers:{
-            Authorization:localStorage.getItem("token"),
+            Authorization:localStorage.getItem("admintoken"),
         }
      });
      const {mostapplied}=response?.data;
