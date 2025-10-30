@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Shimmer from "../Shimmer";
+import { BACKEND_URL } from "../../Config";
 
 const Applications=()=>{
     const location=useLocation();
@@ -15,7 +16,7 @@ const Applications=()=>{
     useEffect(()=>{
      const getapplicationdata=async()=>{
       setloading(true)
-        const response=await axios.get(`http://localhost:3000/api/v1/adminoperations/job-applications/${id}`,{
+        const response=await axios.get(`${BACKEND_URL}/api/v1/adminoperations/job-applications/${id}`,{
             headers:{
                 Authorization:localStorage.getItem("admintoken"),
             }
@@ -29,7 +30,7 @@ const Applications=()=>{
   
   const handlestate=async(jobid:string,candidateid:string,state:string)=>{
     try{
-    const response=await axios.post(`http://localhost:3000/api/v1/adminoperations/handleapplicationstatus/${jobid}/${candidateid}`,{
+    const response=await axios.post(`${BACKEND_URL}/api/v1/adminoperations/handleapplicationstatus/${jobid}/${candidateid}`,{
        status:state,
     },{
       headers:{

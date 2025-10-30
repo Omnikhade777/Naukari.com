@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Footerbar from "./Footerbar";
 import { BookmarkCheck, Search } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 const Mainpage=()=>{
 
     interface jobinfo{
@@ -72,7 +73,7 @@ const handleback = () => {
     const handleisapply=async(jobiid:string)=>{
       try{
        const response= await axios.post<response>(
-      `http://localhost:3000/api/v1/candidatehandler/job/apply/${jobiid}`,
+      `${BACKEND_URL}/api/v1/candidatehandler/job/apply/${jobiid}`,
       {}, 
       {
         headers: {
@@ -99,7 +100,7 @@ const handleback = () => {
 
 const handelsave=async(jobsaveid:string)=>{
   try{
-   const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+   const response=await axios.post(`${BACKEND_URL}/api/v1/candidatefeatures/savejobs`,{
     jobid:jobsaveid
    },{
     headers:{
@@ -137,7 +138,7 @@ useEffect(()=>{
   }
     const timer=setTimeout(async() => {
       try{
-      const response=await axios.get("http://localhost:3000/api/v1/candidatefeatures/filterjobs",{
+      const response=await axios.get(`${BACKEND_URL}/api/v1/candidatefeatures/filterjobs`,{
       params: { title:searchitem , location:searchitem },
       headers: { 
         Authorization: localStorage.getItem("token") 

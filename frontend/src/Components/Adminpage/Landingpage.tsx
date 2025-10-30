@@ -4,6 +4,7 @@ import Header from "../Candidatepages/Header";
 import Problem from "../Problem";
 import { useNavigate } from "react-router-dom";
 import Shimmer from "../Shimmer";
+import { BACKEND_URL } from "../../Config";
 
 const Landingpage=()=>{
 
@@ -28,7 +29,7 @@ const Landingpage=()=>{
         try{
         const getalljobs=async()=>{
           setloading(true)
-        const response=await axios.get("http://localhost:3000/api/v1/adminjobhandler/alljobpost");
+        const response=await axios.get(`${BACKEND_URL}/api/v1/adminjobhandler/alljobpost`);
         const {posts }=response.data;
         setalljobs(posts);
         setloading(false)

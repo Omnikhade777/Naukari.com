@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const UpdateProfile = () => {
     const navigate=useNavigate();
@@ -18,7 +19,7 @@ const UpdateProfile = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/candidatehandler/myprofile",
+          `${BACKEND_URL}/api/v1/candidatehandler/myprofile`,
           { headers: { Authorization: localStorage.getItem("token") } }
         );
         const parsed = response.data.parsedProfile;
@@ -47,7 +48,7 @@ const UpdateProfile = () => {
     e.preventDefault();
     try {
       await axios.put(
-        "http://localhost:3000/api/v1/candidatehandler/update/profile",
+        `${BACKEND_URL}/api/v1/candidatehandler/update/profile`,
         {
           description: profile.description,
           location: profile.location,

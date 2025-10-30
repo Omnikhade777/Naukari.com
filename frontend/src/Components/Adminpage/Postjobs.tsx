@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../../Config";
 
 const Postjobs=()=>{
 
@@ -18,7 +19,7 @@ const Postjobs=()=>{
      e.preventDefault();
      try{
       setloading(true)
-    const response=await axios.post("http://localhost:3000/api/v1/adminjobhandler/jobpost",{
+    const response=await axios.post(`${BACKEND_URL}/api/v1/adminjobhandler/jobpost`,{
       title,
       description,
       postedAt,

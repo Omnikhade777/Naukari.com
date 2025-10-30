@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../Config";
 
    interface recomendjobs<T>{
         message:string,
@@ -12,7 +13,7 @@ const [message,setmessage]=useState<string>("");
     useEffect(()=>{
      const getrecommendjobs=async()=>{
         try{
-        const response=await axios.get<recomendjobs<T>>("http://localhost:3000/api/v1/candidatefeatures/recomendedjobs",{
+        const response=await axios.get<recomendjobs<T>>(`${BACKEND_URL}/api/v1/candidatefeatures/recomendedjobs`,{
         headers:{
             Authorization:localStorage.getItem("token"),
         }

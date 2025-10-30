@@ -3,6 +3,7 @@ import UseRecommend from "../../hooks/UseRecommend";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Recommended=()=>{
     interface jobinfo{
@@ -30,7 +31,7 @@ interface response{
       const handleisapply=async(jobiid:string)=>{
       try{
        const response= await axios.post<response>(
-      `http://localhost:3000/api/v1/candidatehandler/job/apply/${jobiid}`,
+      `${BACKEND_URL}/api/v1/candidatehandler/job/apply/${jobiid}`,
       {}, 
       {
         headers: {
@@ -54,7 +55,7 @@ interface response{
    
 const handelsave=async(jobsaveid:string)=>{
   try{
-   const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+   const response=await axios.post(`${BACKEND_URL}/api/v1/candidatefeatures/savejobs`,{
     jobid:jobsaveid
    },{
     headers:{

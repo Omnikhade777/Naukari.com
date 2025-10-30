@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../../Config";
 
 const Jobchanges = () => {
   const locations = useLocation();
@@ -24,7 +25,7 @@ const Jobchanges = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/adminjobhandler/job/${id}`
+          `${BACKEND_URL}/api/v1/adminjobhandler/job/${id}`
         );
          const  parsed = response?.data?.job[0];
 
@@ -49,7 +50,7 @@ const Jobchanges = () => {
     try {
       setloading(true);
       const response = await axios.put(
-        `http://localhost:3000/api/v1/adminjobhandler/updatejob/${id}`,
+        `${BACKEND_URL}/api/v1/adminjobhandler/updatejob/${id}`,
         {
           title: updatejob.title,
           description: updatejob.description,

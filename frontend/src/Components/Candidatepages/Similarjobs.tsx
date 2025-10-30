@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { BookmarkCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate} from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Similarjobs=()=>{
 
@@ -25,7 +26,7 @@ const Similarjobs=()=>{
 
  const location=useLocation();
  const jobid=location.state.id;
- const[messages,setmessages]=useState<string>("");
+//  const[messages,setmessages]=useState<string>("");
  const[similarjobs,setsimilarjobs]=useState<jobinfo[]>([]);
  const[isapplymessage,setisapplymessage]=useState<Record<string,string>>({})
  const[savemessage,setsavemessage]=useState<Record<string,string>>({})
@@ -36,13 +37,13 @@ const Similarjobs=()=>{
 
    useEffect(()=>{
    const getsimilarjobs=async()=>{
-    const response=await axios.get<similarjobs>(`http://localhost:3000/api/v1/candidatefeatures/similarjobs/${jobid}`,{
+    const response=await axios.get<similarjobs>(`${BACKEND_URL}/api/v1/candidatefeatures/similarjobs/${jobid}`,{
         headers:{
             Authorization:localStorage.getItem("token"),
         }
     });
     console.log(response.data);
-    const {message,findsimilarjobs}=response.data;
+    const {findsimilarjobs}=response.data;
     setsimilarjobs(findsimilarjobs);
    }
     getsimilarjobs();
@@ -51,7 +52,7 @@ const Similarjobs=()=>{
   
    const handelapply=async(jobid:string)=>{
     try{
-    const response=await axios.post(`http://localhost:3000/api/v1/candidatehandler/job/apply/${jobid}`,
+    const response=await axios.post(`${BACKEND_URL}/api/v1/candidatehandler/job/apply/${jobid}`,
       {},{
       headers:{
         Authorization:localStorage.getItem("token"),
@@ -73,7 +74,7 @@ const Similarjobs=()=>{
   
 const handelsave=async(jobsaveid:string)=>{
    try{
-    const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+    const response=await axios.post(`${BACKEND_URL}/api/v1/candidatefeatures/savejobs`,{
     jobid:jobsaveid
    },{
     headers:{

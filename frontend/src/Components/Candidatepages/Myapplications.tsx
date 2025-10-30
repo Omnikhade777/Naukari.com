@@ -2,6 +2,7 @@ import axios from "axios";
 import { Briefcase, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Myapplications=()=>{
 
@@ -27,7 +28,7 @@ const navigate=useNavigate();
 
 useEffect(()=>{
 const myapplications=async()=>{
- const response=await axios.get("http://localhost:3000/api/v1/candidatehandler/myallapplicatons",{
+ const response=await axios.get(`${BACKEND_URL}/api/v1/candidatehandler/myallapplicatons`,{
     headers:{
         Authorization:localStorage.getItem("token"),
     }
@@ -46,7 +47,7 @@ myapplications();
 
 
  const deleteapplication=async(jobid:string)=>{
-    await axios.delete(`http://localhost:3000/api/v1/candidatehandler/job/delete/${jobid}`,{
+    await axios.delete(`${BACKEND_URL}/api/v1/candidatehandler/job/delete/${jobid}`,{
      headers:{
         Authorization:localStorage.getItem("token"),
     }} );

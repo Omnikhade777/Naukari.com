@@ -2,6 +2,7 @@ import axios from "axios";
 import { Bookmark } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Savedjobs = () => {
    interface jobinfo{
@@ -25,7 +26,7 @@ const Savedjobs = () => {
 
   useEffect(()=>{
    const allsavedjobs=async()=>{
-    const response=await axios.get("http://localhost:3000/api/v1/candidatefeatures/getallsavedjobs",{
+    const response=await axios.get(`${BACKEND_URL}/api/v1/candidatefeatures/getallsavedjobs`,{
       headers:{
         Authorization:localStorage.getItem("token"),
       }
@@ -37,7 +38,7 @@ const Savedjobs = () => {
   },[]);
 
   const deletesaved=async(id:string)=>{
-     await axios.delete(`http://localhost:3000/api/v1/candidatefeatures/deletesavejobs/${id}`,{
+     await axios.delete(`${BACKEND_URL}/api/v1/candidatefeatures/deletesavejobs/${id}`,{
       headers:{
         Authorization:localStorage.getItem("token")
      }

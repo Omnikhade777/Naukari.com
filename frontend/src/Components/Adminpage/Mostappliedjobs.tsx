@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Mostappliedjobs=()=>{
    
@@ -27,7 +28,7 @@ const Mostappliedjobs=()=>{
 
     useEffect(()=>{
      const getmostappliedjobs=async()=>{
-     const response =await axios.get<mostappliedschema>("http://localhost:3000/api/v1/adminoperations/stats",{
+     const response =await axios.get<mostappliedschema>(`${BACKEND_URL}/api/v1/adminoperations/stats`,{
         headers:{
             Authorization:localStorage.getItem("admintoken"),
         }

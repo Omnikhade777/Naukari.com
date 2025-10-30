@@ -4,6 +4,7 @@ import Adminposts from "./Adminposts";
 import Postjobs from "./Postjobs";
 import { useNavigate } from "react-router-dom";
 import Mostappliedjobs from "./Mostappliedjobs";
+import { BACKEND_URL } from "../../Config";
 
 const Aboutpage=()=>{
 
@@ -40,7 +41,7 @@ const Aboutpage=()=>{
 
     useEffect(()=>{
         const getresponse=async()=>{
-        const response=await axios.get("http://localhost:3000/api/v1/adminoperations/aboutadmin",{
+        const response=await axios.get(`${BACKEND_URL}/api/v1/adminoperations/aboutadmin`,{
             headers:{
               Authorization:localStorage.getItem("admintoken")
             }
@@ -56,7 +57,7 @@ const Aboutpage=()=>{
     },[]);
 
     const handledeletejob=async(jobid:string)=>{
-     await axios.delete(`http://localhost:3000/api/v1/adminjobhandler/deletepostbyid/${jobid}`,{
+     await axios.delete(`${BACKEND_URL}/api/v1/adminjobhandler/deletepostbyid/${jobid}`,{
       headers:{
         Authorization:localStorage.getItem("admintoken")
       }
@@ -68,7 +69,7 @@ const Aboutpage=()=>{
    useEffect(()=>{
     const getjobpostedbyadmin=async()=>{
     if (!infodata.id) return;
-    const response=await axios.get(`http://localhost:3000/api/v1/adminjobhandler/adminpostedjobs/${infodata.id}`)
+    const response=await axios.get(`${BACKEND_URL}/api/v1/adminjobhandler/adminpostedjobs/${infodata.id}`)
     const jobsdata=response.data.posts;
     setjobs(jobsdata);
     }

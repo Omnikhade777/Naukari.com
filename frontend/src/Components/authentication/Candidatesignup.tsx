@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {BACKEND_URL} from "../../Config.ts";
 
 const CSignup=()=>{
      
@@ -17,7 +18,7 @@ const CSignup=()=>{
 
     const postsignup=async()=>{
     try{
-      const response = await axios.post<signupresponse>("http://localhost:3000/api/v1/candidateauth/signup",{
+      const response = await axios.post<signupresponse>(`${BACKEND_URL}/api/v1/candidateauth/signup`,{
           name,
           email,
           password

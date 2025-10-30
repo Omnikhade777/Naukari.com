@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Profile=()=>{
     const [profile,setprofile]=useState<any>({});
@@ -9,7 +10,7 @@ const Profile=()=>{
 
     useEffect(()=>{
         const fetchdata=async()=>{
-          const response=await axios.get("http://localhost:3000/api/v1/candidatehandler/myprofile",{
+          const response=await axios.get(`${BACKEND_URL}/api/v1/candidatehandler/myprofile`,{
             headers:{
                 Authorization:token
             }

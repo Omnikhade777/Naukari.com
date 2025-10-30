@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const CreateProfile=()=>{
  const navigate=useNavigate();
@@ -18,7 +19,7 @@ const CreateProfile=()=>{
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/candidatehandler/myprofile",
+          `${BACKEND_URL}/api/v1/candidatehandler/myprofile`,
           { 
             headers:{ 
               Authorization: localStorage.getItem("token") 
@@ -50,7 +51,7 @@ const CreateProfile=()=>{
   const handleUpdateFields = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/v1/candidatehandler/addinfotoprofile",
+      await axios.post(`${BACKEND_URL}/api/v1/candidatehandler/addinfotoprofile`,
         {
           profielphoto:"https://img.icons8.com/ios-filled/100/user-male-circle.png",
           description: profile.description,

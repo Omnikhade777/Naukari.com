@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../Config";
 
 
   interface jobresponse<T>{
@@ -11,7 +12,7 @@ import { useEffect, useState } from "react";
 
     
     const getjobs=async()=>{
-    const response=await axios.get<jobresponse<T>>("http://localhost:3000/api/v1/adminjobhandler/alljobpost");
+    const response=await axios.get<jobresponse<T>>(`${BACKEND_URL}/api/v1/adminjobhandler/alljobpost`);
     setjobs(response?.data?.posts);
  }
 
