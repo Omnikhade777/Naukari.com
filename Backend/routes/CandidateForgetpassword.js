@@ -53,7 +53,7 @@ async function sendPsswordResetEmail(email,link){
          }
     });
     await transporter.sendMail({
-        from:`"Naukari.com" <${process.env.EMAIL}>`,
+        from:`"HubHire.com" <${process.env.EMAIL}>`,
         to:email,
         subject:'Password Reset',
         html: `<p>Click the link below to reset your password:</p><a href="${link}">${link}</a>`,

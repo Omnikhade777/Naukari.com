@@ -1,0 +1,6 @@
+// 1] initialize the express application
+// 2] initialize the prisma.
+// 3] connect to the database localy using the docker 
+// 4] define schema --> migrate-->generate clients
+//5] structuring the routes properly
+//6]write the routes for admin and install the zod

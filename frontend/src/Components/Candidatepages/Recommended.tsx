@@ -75,9 +75,9 @@ const handelsave=async(jobsaveid:string)=>{
     [jobsaveid]:error.response?.data?.message || "something went wrong"
    }))
   }
-
+  
 }
-    
+
 useEffect(()=>{
   const timer=setTimeout(() => {
     setJobMessages({}),
