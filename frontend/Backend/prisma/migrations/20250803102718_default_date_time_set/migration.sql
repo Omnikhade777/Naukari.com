@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "public"."Job" ALTER COLUMN "postedAt" SET DEFAULT CURRENT_TIMESTAMP;
