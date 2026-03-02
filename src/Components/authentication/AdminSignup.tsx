@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Signup=()=>{
     
@@ -19,11 +20,11 @@ const Signup=()=>{
   setloading(true);
   try {
     const response = await axios.post<signupresponse>(
-      "http://localhost:3000/api/v1/adminauth/signup",
+      `${BACKEND_URL}/api/v1/adminauth/signup`,
       { name, email, password }
     );
 
-    const { withid, message } = response.data;
+    const { message } = response.data;
     setmessages(message);
     setname("");
     setemail("");

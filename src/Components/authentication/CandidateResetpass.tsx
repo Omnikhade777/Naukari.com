@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const CandidateResetpass=()=>{
     const[password,setpassword]=useState<string>("");
@@ -11,7 +12,7 @@ const CandidateResetpass=()=>{
 
     const resetpassword=async()=>{
         setloading(true);
-      await axios.post("http://localhost:3000/api/v1/candidateauth/forgotcandidatepassword/reset-password",{
+      await axios.post(`${BACKEND_URL}/api/v1/candidateauth/forgotcandidatepassword/reset-password`,{
          token,
          password
       });

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const CreateProfile=()=>{
  const navigate=useNavigate();
@@ -18,7 +19,7 @@ const CreateProfile=()=>{
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/candidatehandler/myprofile",
+          `${BACKEND_URL}/api/v1/candidatehandler/myprofile`,
           { 
             headers:{ 
               Authorization: localStorage.getItem("token") 
@@ -50,7 +51,7 @@ const CreateProfile=()=>{
   const handleUpdateFields = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/v1/candidatehandler/addinfotoprofile",
+      await axios.post(`${BACKEND_URL}/api/v1/candidatehandler/addinfotoprofile`,
         {
           profielphoto:"https://img.icons8.com/ios-filled/100/user-male-circle.png",
           description: profile.description,
@@ -80,9 +81,7 @@ const CreateProfile=()=>{
         <label className="relative w-32 h-32">
         <img src={profile.profielphoto || "https://img.icons8.com/ios-filled/100/user-male-circle.png"} 
        alt="Profile" className="w-32 h-32 rounded-full object-cover border-2 border-gray-300" /> 
-       <input type="file" accept="image/*" className="hidden" id="photoInput" /> 
-       <label htmlFor="photoInput" className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-700" > 
-        + </label> </label> <p className="text-sm text-gray-500 mt-2">Click + to change photo</p> </div>
+      </label>  </div>
       <form className="space-y-4" onSubmit={handleUpdateFields}>
         <textarea
           name="description"

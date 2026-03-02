@@ -3,6 +3,7 @@ import UseRecommend from "../../hooks/UseRecommend";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Recommended=()=>{
     interface jobinfo{
@@ -30,7 +31,7 @@ interface response{
       const handleisapply=async(jobiid:string)=>{
       try{
        const response= await axios.post<response>(
-      `http://localhost:3000/api/v1/candidatehandler/job/apply/${jobiid}`,
+      `${BACKEND_URL}/api/v1/candidatehandler/job/apply/${jobiid}`,
       {}, 
       {
         headers: {
@@ -54,7 +55,7 @@ interface response{
    
 const handelsave=async(jobsaveid:string)=>{
   try{
-   const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+   const response=await axios.post(`${BACKEND_URL}/api/v1/candidatefeatures/savejobs`,{
     jobid:jobsaveid
    },{
     headers:{
@@ -74,9 +75,9 @@ const handelsave=async(jobsaveid:string)=>{
     [jobsaveid]:error.response?.data?.message || "something went wrong"
    }))
   }
-
+  
 }
-    
+
 useEffect(()=>{
   const timer=setTimeout(() => {
     setJobMessages({}),
@@ -90,12 +91,18 @@ useEffect(()=>{
 return (
   <>
   <div className="flex justify-center mt-12 px-6">
-     <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
   <div className="w-full max-w-5xl">
-    <h1 className="text-3xl font-bold text-center text-blue-800 mb-8">
-      🌟 Recommended Jobs
-    </h1>
-    <div className="space-y-8">
+     <div className="flex justify-center px-6">
+  <div className=" fixed  top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div className="flex items-center justify-between max-w-4xl mx-auto px-6 py-4">
+      <button className=" absolute left-0 ml-6 bg-gray-200 px-4 py-2  rounded"onClick={() => navigate("/mainpage")}>
+        Back
+      </button>
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center w-full">💼Recommended Jobs</h1>
+        </div>
+  </div>
+</div>
+    <div className="space-y-8 mt-14">
       {recommendjobs?.length>0 ? recommendjobs.map((j) => (
         <div
           key={j.id}
@@ -137,12 +144,8 @@ return (
               <strong>✅ Active:</strong>{" "}
               <span
                 className={
-                  j.isActive
-                    ? "text-green-600 font-semibold"
-                    : "text-red-600 font-semibold"
-                }
-              >
-                {j.isActive ? "Yes" : "No"}
+                  (new Date() <= new Date(j.deadline)) ? "text-green-600 font-semibold": "text-red-600 font-semibold"}>
+                  {(new Date() <= new Date(j.deadline)) ? "Yes" : "No"}
               </span>
             </p>
           </div>

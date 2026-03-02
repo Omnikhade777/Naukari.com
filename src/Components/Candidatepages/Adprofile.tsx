@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const AddProfile = () => {
     const navigate=useNavigate();
@@ -24,7 +25,7 @@ const AddProfile = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3000/api/v1/candidatehandler/addinfotoprofile",
+        `${BACKEND_URL}/api/v1/candidatehandler/addinfotoprofile`,
         {
           description: profile.description,
           location: profile.location,

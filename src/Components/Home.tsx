@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
       <header className="flex justify-between items-center px-10 py-6 bg-white shadow-md">
-        <div className="text-2xl font-bold text-blue-700 cursor-pointer">Naukari.com</div>
+        <div className="text-2xl font-bold text-blue-700 cursor-pointer">HubHire.com</div>
         <div className="flex gap-6">
           <button
             onClick={() => navigate("/user-signin")}

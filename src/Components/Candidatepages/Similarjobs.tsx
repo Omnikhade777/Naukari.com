@@ -1,7 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { BookmarkCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation} from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Similarjobs=()=>{
 
@@ -25,23 +26,24 @@ const Similarjobs=()=>{
 
  const location=useLocation();
  const jobid=location.state.id;
- const[messages,setmessages]=useState<string>("");
+//  const[messages,setmessages]=useState<string>("");
  const[similarjobs,setsimilarjobs]=useState<jobinfo[]>([]);
  const[isapplymessage,setisapplymessage]=useState<Record<string,string>>({})
  const[savemessage,setsavemessage]=useState<Record<string,string>>({})
  const[recommendjobid,setrecommendjobid]=useState<Record<string,boolean>>({});
+ const navigate=useNavigate();
  
 
 
    useEffect(()=>{
    const getsimilarjobs=async()=>{
-    const response=await axios.get<similarjobs>(`http://localhost:3000/api/v1/candidatefeatures/similarjobs/${jobid}`,{
+    const response=await axios.get<similarjobs>(`${BACKEND_URL}/api/v1/candidatefeatures/similarjobs/${jobid}`,{
         headers:{
             Authorization:localStorage.getItem("token"),
         }
     });
     console.log(response.data);
-    const {message,findsimilarjobs}=response.data;
+    const {findsimilarjobs}=response.data;
     setsimilarjobs(findsimilarjobs);
    }
     getsimilarjobs();
@@ -50,7 +52,7 @@ const Similarjobs=()=>{
   
    const handelapply=async(jobid:string)=>{
     try{
-    const response=await axios.post(`http://localhost:3000/api/v1/candidatehandler/job/apply/${jobid}`,
+    const response=await axios.post(`${BACKEND_URL}/api/v1/candidatehandler/job/apply/${jobid}`,
       {},{
       headers:{
         Authorization:localStorage.getItem("token"),
@@ -72,7 +74,7 @@ const Similarjobs=()=>{
   
 const handelsave=async(jobsaveid:string)=>{
    try{
-    const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+    const response=await axios.post(`${BACKEND_URL}/api/v1/candidatefeatures/savejobs`,{
     jobid:jobsaveid
    },{
     headers:{
@@ -104,14 +106,22 @@ const handelsave=async(jobsaveid:string)=>{
 
     return(
         <>
-     <div className="flex justify-center mt-12 px-6">
+     <div className="flex justify-center mt-12 px-6">    
   <div className="w-full max-w-4xl">
-      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
-        💼 Similar jobs
-      </h1>
+      <div className="flex justify-center px-6">
+  <div className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div className="flex items-center justify-between max-w-4xl mx-auto px-6 py-4">
+      <button className="absolute left-0 ml-6 bg-gray-200 px-4 py-2 rounded"onClick={() => navigate("/mainpage")}>
+        Back
+      </button>
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center w-full">💼 Similar Jobs</h1>
+        </div>
+  </div>
+</div>
+
       {similarjobs.map((a)=>(
     <div
-      className="border border-gray-200 rounded-2xl p-8 mt-6 shadow-md bg-gradient-to-r from-blue-50 via-white to-blue-50 hover:shadow-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
+      className="border border-gray-200 rounded-2xl p-8 mt-14 shadow-md bg-gradient-to-r from-blue-50 via-white to-blue-50 hover:shadow-xl hover:scale-[1.01] transition-all duration-300 ease-in-out">
     <>
      <h2 className="text-2xl font-semibold text-blue-700 mb-3">{a.title}</h2>
       <p className="text-gray-600 mb-6 leading-relaxed">{a.description}</p>
@@ -137,7 +147,10 @@ const handelsave=async(jobsaveid:string)=>{
         </p>
         <p>
           <strong>✅ Active:</strong>{" "}
-          <span className="text-green-600 font-semibold">Yes</span>
+          <span className={
+                  (new Date() <= new Date(a.deadline)) ? "text-green-600 font-semibold": "text-red-600 font-semibold"}>
+                  {(new Date() <= new Date(a.deadline)) ? "Yes" : "No"}
+              </span>
         </p>
       </div>
       <div className="mt-6 flex justify-between items-center">

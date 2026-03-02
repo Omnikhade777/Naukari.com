@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Footerbar from "./Footerbar";
 import { BookmarkCheck, Search } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 const Mainpage=()=>{
 
     interface jobinfo{
@@ -72,7 +73,7 @@ const handleback = () => {
     const handleisapply=async(jobiid:string)=>{
       try{
        const response= await axios.post<response>(
-      `http://localhost:3000/api/v1/candidatehandler/job/apply/${jobiid}`,
+      `${BACKEND_URL}/api/v1/candidatehandler/job/apply/${jobiid}`,
       {}, 
       {
         headers: {
@@ -99,7 +100,7 @@ const handleback = () => {
 
 const handelsave=async(jobsaveid:string)=>{
   try{
-   const response=await axios.post("http://localhost:3000/api/v1/candidatefeatures/savejobs",{
+   const response=await axios.post(`${BACKEND_URL}/api/v1/candidatefeatures/savejobs`,{
     jobid:jobsaveid
    },{
     headers:{
@@ -137,7 +138,7 @@ useEffect(()=>{
   }
     const timer=setTimeout(async() => {
       try{
-      const response=await axios.get("http://localhost:3000/api/v1/candidatefeatures/filterjobs",{
+      const response=await axios.get(`${BACKEND_URL}/api/v1/candidatefeatures/filterjobs`,{
       params: { title:searchitem , location:searchitem },
       headers: { 
         Authorization: localStorage.getItem("token") 
@@ -174,9 +175,9 @@ return (
   <div className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
     <Header trigger={handleback}/>
   </div>
-<div className="flex-1 mt-28 px-8 fixed top-0 left-0 w-full z-50">
-  <div className="w-full max-w-md mx-auto">
-<div className="relative">
+<div className="flex-1 mt-28 px-8 fixed top-0 left-0 w-full z-50 backdrop-blur-sm">
+  <div className="w-full max-w-md mx-auto ">
+<div className="relative ">
   <span className="absolute inset-y-0 left-4 flex items-center"> <Search className="text-gray-500" size={20} /></span>
   <input onChange={(e) => setsearchitem(e.target.value)}
         type="text"
@@ -230,13 +231,11 @@ return (
             <strong>📂 Job Type:</strong> {job.jobtype}
           </p>
           <p>
+            
             <strong>✅ Active:</strong>{" "}
             <span
-              className={
-                job.isActive ? "text-green-600 font-medium" : "text-red-500"
-              }
-            >
-              {job.isActive ? "Yes" : "No"}
+              className={(new Date() <= new Date(job.deadline)) ? "text-green-600 font-medium" : "text-red-500 font-medium"}>
+              {(new Date() <= new Date(job.deadline)) ? "Yes" : "No"}
             </span>
           </p>
         </div>
@@ -250,7 +249,6 @@ return (
            {jobid===job.id ? "Applied" : "Apply Now"}
           </button>
           </div>
-          
           <div>
           <button
   onClick={() => {

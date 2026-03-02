@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../../Config";
 
 const AdminForgetpass=()=>{
     const [email,setemail]=useState<string>("");
@@ -9,7 +10,7 @@ const AdminForgetpass=()=>{
     const sendmail=async()=>{
         setloading(true);
      try{
-       const response= await axios.post("http://localhost:3000/api/v1/adminauth/forgetpassword/forget-password",{
+       const response= await axios.post(`${BACKEND_URL}/api/v1/adminauth/forgetpassword/forget-password`,{
         email
       });
       const {message}=response.data;

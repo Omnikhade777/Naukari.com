@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { BACKEND_URL } from "../../Config";
 
 const CandidateForgetpass=()=>{
    const [email,setemail]=useState<string>("");
@@ -7,7 +8,7 @@ const CandidateForgetpass=()=>{
     const sendmail=async()=>{
         setloading(true);
      try{
-        await axios.post("http://localhost:3000/api/v1/candidateauth/forgotcandidatepassword/forget-password",{
+        await axios.post(`${BACKEND_URL}/api/v1/candidateauth/forgotcandidatepassword/forget-password`,{
         email
       });
       setemail("");

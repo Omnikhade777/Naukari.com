@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {BACKEND_URL} from "../../Config.ts";
 
 const CSignin=()=>{
     const [email,setemail]=useState<string>("");
@@ -18,11 +19,11 @@ const CSignin=()=>{
     const postsignin=async()=>{
           setloading(true);
       try{
-        const response=await axios.post<signinresponse>("http://localhost:3000/api/v1/candidateauth/signin",{
+        const response=await axios.post<signinresponse>(`${BACKEND_URL}/api/v1/candidateauth/signin`,{
             email,
             password
         });
-        const {token,message, id}=response.data;
+        const {token,message}=response.data;
         localStorage.setItem("token",token);
         setmessages(message)
         setemail("");

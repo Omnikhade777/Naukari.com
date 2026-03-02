@@ -2,6 +2,7 @@ import axios from "axios";
 import { Bookmark } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Config";
 
 const Savedjobs = () => {
    interface jobinfo{
@@ -25,7 +26,7 @@ const Savedjobs = () => {
 
   useEffect(()=>{
    const allsavedjobs=async()=>{
-    const response=await axios.get("http://localhost:3000/api/v1/candidatefeatures/getallsavedjobs",{
+    const response=await axios.get(`${BACKEND_URL}/api/v1/candidatefeatures/getallsavedjobs`,{
       headers:{
         Authorization:localStorage.getItem("token"),
       }
@@ -37,7 +38,7 @@ const Savedjobs = () => {
   },[]);
 
   const deletesaved=async(id:string)=>{
-     await axios.delete(`http://localhost:3000/api/v1/candidatefeatures/deletesavejobs/${id}`,{
+     await axios.delete(`${BACKEND_URL}/api/v1/candidatefeatures/deletesavejobs/${id}`,{
       headers:{
         Authorization:localStorage.getItem("token")
      }
@@ -47,17 +48,20 @@ const Savedjobs = () => {
   return (
     <>
       <div className="flex justify-center mt-12 px-6">
-         <div><button className="bg-gray-200 px-4 py-2 mr-8 rounded" onClick={()=>{navigate("/mainpage")}}> back </button></div>
         <div className="w-full max-w-5xl">
-          <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
-            💼 Saved Jobs
-          
-          </h1>
-
+      <div className="flex justify-center px-6">
+  <div className=" fixed  top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div className="flex items-center justify-between max-w-4xl mx-auto px-6 py-4">
+      <button className=" absolute left-0 ml-6 bg-gray-200 px-4 py-2  rounded"onClick={() => navigate("/mainpage")}>
+        Back
+      </button>
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center w-full">💼 Saved Jobs</h1>
+        </div>
+  </div>
+</div>
           <div className="space-y-8">
-          
            {allsavedjobsids?.length>0 ? allsavedjobsids.map((a:any)=>(
-             <div key={a.job.id} className="border border-gray-200 rounded-xl p-6 shadow-md cursor-pointer bg-white hover:shadow-lg transition-shadow duration-200 ease-in-out">
+             <div key={a.job.id} className="border border-gray-200 rounded-xl p-6 mt-16 shadow-md cursor-pointer bg-white hover:shadow-lg transition-shadow duration-200 ease-in-out">
               <h2 className="text-xl font-semibold text-blue-700 mb-3">
                 {a.job.title}
               </h2>
@@ -94,7 +98,11 @@ const Savedjobs = () => {
                 </p>
                 <p>
                   <strong>✅ Active:</strong>{" "}
-                  <span className="text-green-600 font-medium">{a.job.isActive}</span>
+                  <span
+                className={
+                  (new Date() <= new Date(a.job.deadline)) ? "text-green-600 font-semibold": "text-red-600 font-semibold"}>
+                  {(new Date() <= new Date(a.job.deadline)) ? "Yes" : "No"}
+              </span>
                 </p>
               </div>
 
